@@ -48,17 +48,63 @@ export const departmentController = {
         );
     }),
 
-    getDepartmentController: asyncHandler(async (_req, res) => {
+    getAllDepartmentsController: asyncHandler(async (_req, res) => {
 
-        const department = await departmentServices.getAllDepartmentServices();
+        const departments = await departmentServices.getAllDepartmentServices();
 
         return res.status(HTTP_STATUS.OK).json(
             new ApiResponse(
                 HTTP_STATUS.OK,
-                "All departments fetched successfully",
-                department.map(sanitizeDepartment)
+                "Departments fetched successfully",
+                departments.map(sanitizeDepartment)
+            )
+        );
+    }),
+
+    getDepartmentByIdController: asyncHandler(async (req, res) => {
+
+        const { id } = req.params;
+
+        const department = await departmentServices.getDepartmentByIdServices(id);
+
+        return res.status(HTTP_STATUS.OK).json(
+            new ApiResponse(
+                HTTP_STATUS.OK,
+                "Department fetched successfully",
+                sanitizeDepartment(department)
+            )
+        );
+    }),
+
+    editDepartmentByIdController: asyncHandler(async (req, res) => {
+
+        const { id } = req.params;
+        const data = { id, ...req.body };
+
+        const department = await departmentServices.editDepartmentByIdServices(data);
+
+        return res.status(HTTP_STATUS.OK).json(
+            new ApiResponse(
+                HTTP_STATUS.OK,
+                "Department updated successfully",
+                sanitizeDepartment(department)
+            )
+        );
+    }),
+
+    deleteDepartmentByIdController: asyncHandler(async (req, res) => {
+
+        const { id } = req.params;
+
+        const department = await departmentServices.deleteDepartmentById(id);
+
+        return res.status(HTTP_STATUS.OK).json(
+            new ApiResponse(
+                HTTP_STATUS.OK,
+                "Department deleted successfully",
+                sanitizeDepartment(department)
             )
         );
     })
 
-}
+};
