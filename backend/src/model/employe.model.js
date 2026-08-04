@@ -63,13 +63,14 @@ const employeeSchema = new Schema(
 
         department: {
             type: Schema.Types.ObjectId,
-            ref: "Department",
-            required: true,
+            ref: "department",
+            default: null
         },
 
         designation: {
-            type: String,
-            required: true,
+            type: Schema.Types.ObjectId,
+            ref: "designation",
+            default: null
         },
 
         salary: {
