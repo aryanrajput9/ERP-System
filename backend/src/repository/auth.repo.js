@@ -9,7 +9,7 @@ const authRepo = {
         return employe
     },
     findByEmail: async (email) => {
-        const employe = await Employee.findOne({ email });
+        const employe = await Employee.findOne({ email }).select("+password");
         return employe
     },
     findById: async (userId) => {

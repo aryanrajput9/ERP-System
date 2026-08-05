@@ -64,7 +64,7 @@ export const authServices = {
         }
 
         // ✅ COMMIT: Verify password before login
-        const isMatch = await employee.comparePassword(password);
+        const isMatch = await employee.comparepassword(password);
 
         if (!isMatch) {
             throw new ApiError(

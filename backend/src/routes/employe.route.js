@@ -4,12 +4,12 @@ import { loginValidator, registerValidator } from '../validator/auth.validator.j
 import authMiddleware from '../middleware/auth.middileware.js';
 
 
-const employeRouter = Router();
+const employeeRouter = Router();
 
-employeRouter.post("/register-employee", registerValidator, authContoller.sigup);
-employeRouter.post("/login-employee", loginValidator, authMiddleware, authContoller.login);
-employeRouter.get("/get-cuurent-employe", authMiddleware, authContoller.getMe);
-employeRouter.get("/refresh-token", authContoller.reFreshTokens)
+employeeRouter.post("/register-employee", registerValidator, authContoller.sigup);
+employeeRouter.post("/login-employee", loginValidator, authContoller.login);
+employeeRouter.get("/get-cuurent-employe", authMiddleware, authContoller.getMe);
+employeeRouter.get("/refresh-token", authContoller.reFreshTokens)
 
 
-export default employeRouter
+export default employeeRouter
