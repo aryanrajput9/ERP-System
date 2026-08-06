@@ -17,7 +17,8 @@ function sanitizeEmployee(employee, accessToken = "") {
         department: employee.department,
         role: employee.role,
         isActive: employee.isActive,
-        accessToken,
+        accessToken
+
     };
 };
 
@@ -90,7 +91,8 @@ export const authContoller = {
             new ApiResponse(
                 HTTP_STATUS.CREATED,
                 "Employee created successfully",
-                sanitizeEmployee(employee, accessToken)
+                sanitizeEmployee(employee),
+                accessToken
             )
         );
     }),
@@ -116,8 +118,9 @@ export const authContoller = {
             new ApiResponse(
                 HTTP_STATUS.OK,
                 "Employee login successful",
-                sanitizeEmployee(employee, accessToken)
-            )
+                sanitizeEmployee(employee, accessToken),
+            ),
+
         );
     }),
 

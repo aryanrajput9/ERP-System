@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import "tailwindcss";
+
+
+
+
+/* ==========================================
+   LIGHT THEME
+========================================== */
+
+:root {
+
+  /* Brand */
+  --primary: #4F46E5;
+  --primary-light: #7C73FF;
+  --primary-dark: #3730A3;
+
+  /* Secondary */
+  --secondary: #10B981;
+  --secondary-light: #34D399;
+  --secondary-dark: #059669;
+
+  /* Accent */
+  --accent: #F59E0B;
+  --accent-light: #FBBF24;
+  --accent-dark: #D97706;
+
+  /* Status */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+
+  /* Background */
+  --background: #F5F7FB;
+  --surface: #FFFFFF;
+  --surface-2: #EEF2FF;
+
+  /* Sidebar */
+  --sidebar: #FFFFFF;
+  --sidebar-hover: #EEF2FF;
+  --sidebar-active: #E0E7FF;
+
+  /* Navbar */
+  --navbar: #FFFFFF;
+
+  /* Border */
+  --border: #E5E7EB;
+
+  /* Text */
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --text-white: #FFFFFF;
+
+  /* Cards */
+  --card: #FFFFFF;
+  --card-hover: #F9FAFB;
+
+  /* Inputs */
+  --input-bg: #FFFFFF;
+  --input-border: #D1D5DB;
+  --input-focus: #4F46E5;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .05);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, .08);
+  --shadow-lg: 0 15px 40px rgba(0, 0, 0, .10);
+
+  /* Radius */
+  --radius: 16px;
+
+
+  --hover-bg: #EEF2FF;
+  --hover-text: #4F46E5;
+  --hover-border: #C7D2FE;
+}
+
+
+/* ==========================================
+   DARK THEME
+========================================== */
+
+.dark {
+
+  /* Brand */
+  --primary: #6D63FF;
+  --primary-light: #8F88FF;
+  --primary-dark: #5145CD;
+
+  /* Secondary */
+  --secondary: #10B981;
+  --secondary-light: #34D399;
+  --secondary-dark: #059669;
+
+  /* Accent */
+  --accent: #F59E0B;
+  --accent-light: #FBBF24;
+  --accent-dark: #D97706;
+
+  /* Status */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #60A5FA;
+
+  /* Background */
+  --background: #0F172A;
+  --surface: #111827;
+  --surface-2: #1F2937;
+
+  /* Sidebar */
+  --sidebar: #111827;
+  --sidebar-hover: #1E293B;
+  --sidebar-active: #312E81;
+
+  /* Navbar */
+  --navbar: #111827;
+
+  /* Border */
+  --border: #374151;
+
+  /* Text */
+  --text-primary: #F9FAFB;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+  --text-white: #FFFFFF;
+
+  /* Cards */
+  --card: #1E293B;
+  --card-hover: #273449;
+
+  /* Inputs */
+  --input-bg: #1F2937;
+  --input-border: #374151;
+  --input-focus: #6D63FF;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .30);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, .60);
+
+  /* Radius */
+  --radius: 16px;
+
+  --hover-bg: #1E293B;
+  --hover-text: #8F88FF;
+  --hover-border: #374151;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color .3s ease, color .3s ease;
+  font-family: "Inter", sans-serif;
+}
