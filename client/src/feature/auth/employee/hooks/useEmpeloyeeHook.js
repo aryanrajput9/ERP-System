@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import employeSchema from "../schema/employe.authSchema";
 import employeeApi from "../../../../app/Api/employeAuth.api";
 import { useDispatch } from "react-redux";
-import { setAccessToken, setEmployeeData } from "../state/employeeSlice";
+import { setAccessToken, setEmployeeData, setError } from "../state/employeeSlice";
 import { useNavigate } from "react-router";
 
 
@@ -23,6 +23,7 @@ const useEmployeeHook = {
             const resp = await employeeApi.loginApi(data)
             dispatch(setEmployeeData(resp))
             dispatch(setAccessToken(resp.accessToken))
+            dispatch(setError(resp.message))
             navigate("/dashboard/home")
             reset()
         };

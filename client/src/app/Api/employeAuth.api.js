@@ -37,7 +37,9 @@ useAxiosInstence.interceptors.response.use(
             const token = await axios.get("/api/employee/refresh-token");
 
 
-            store.dispatch(setAccessToken(token.data.data.accessToken))
+            store.dispatch(setAccessToken(token.data.data.accessToken));
+
+            orignalRequest.headers.Authorization = `Bearer ${token}`;
 
 
             return useAxiosInstence(orignalRequest)

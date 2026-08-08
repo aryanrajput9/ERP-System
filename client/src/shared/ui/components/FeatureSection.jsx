@@ -54,20 +54,27 @@ export default function FeatureSection() {
         <section className="bg-[var(--background)] py-24">
             <div className="mx-auto max-w-7xl px-6">
 
+                {/* Heading */}
+
                 <div className="mx-auto mb-16 max-w-3xl text-center">
-                    <h2 className="text-4xl font-bold text-slate-900">
+                    <h2 className="text-4xl font-bold text-[var(--text-primary)]">
                         Engineered for Operational Clarity
                     </h2>
 
-                    <p className="mt-5 text-lg text-slate-600">
+                    <p className="mt-5 text-lg leading-8 text-[var(--text-secondary)]">
                         Our modular architecture ensures data integrity across every
                         vertical of your organization.
                     </p>
                 </div>
 
+                {/* Features */}
+
                 <div className="grid grid-cols-12 gap-6">
-                    {features.map((item, i) => (
-                        <FeatureCard key={i} {...item} />
+                    {features.map((item, index) => (
+                        <FeatureCard
+                            key={index}
+                            {...item}
+                        />
                     ))}
                 </div>
 

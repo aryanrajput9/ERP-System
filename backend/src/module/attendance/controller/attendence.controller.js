@@ -47,7 +47,6 @@ export const attendanceController = {
     getTodayAttendance: asyncHandler(async (req, res) => {
 
         const employeeId = req.employee._id;
-
         const attendance = await attendanceServices.getFindAttendance(employeeId);
 
         return res.status(HTTP_STATUS.OK).json(

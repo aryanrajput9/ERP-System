@@ -8,28 +8,41 @@ const logos = [
 
 export default function TrustedBy() {
     return (
-        <section className="w-full border-y border-gray-200 bg-[var(--background)] py-20">
+        <section className="bg-[var(--background)] py-20">
             <div className="mx-auto max-w-7xl px-6">
 
                 {/* Heading */}
-                <h4 className="text-center text-xs font-semibold uppercase tracking-[4px] text-gray-500">
+
+                <h4 className="text-center text-xs font-semibold uppercase tracking-[4px] text-[var(--text-secondary)]">
                     Trusted By Forward-Thinking Enterprises
                 </h4>
 
                 {/* Logos */}
+
                 <div className="mt-12 flex flex-wrap items-center justify-center gap-14">
+
                     {logos.map((logo, index) => (
                         <div
                             key={index}
-                            className="flex h-14 w-36 items-center justify-center opacity-60 transition duration-300 hover:opacity-100"
+                            className="flex h-14 w-36 items-center justify-center transition-all duration-300 hover:scale-105"
+                            style={{
+                                opacity: 0.65,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.opacity = "1";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.opacity = "0.65";
+                            }}
                         >
                             <img
                                 src={logo}
-                                alt="Company Logo"
-                                className="max-h-10 object-contain grayscale hover:grayscale-0"
+                                alt={`Company Logo ${index + 1}`}
+                                className="max-h-10 object-contain grayscale transition-all duration-300 hover:grayscale-0"
                             />
                         </div>
                     ))}
+
                 </div>
 
             </div>

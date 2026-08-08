@@ -1,37 +1,54 @@
-
 function Banner() {
     return (
-        <section className="min-h-[80vh] flex items-center justify-center  px-6">
-            <div className="max-w-5xl mx-auto text-center">
-
-                <h1 className="text-5xl md:text-6xl font-extrabold text-[ var(--text-primary)] leading-tight">
+        <section className="bg-[var(--background)] py-24">
+            <div className="mx-auto max-w-7xl px-6 text-center">
+                <h1 className="text-5xl font-extrabold leading-tight text-[var(--text-primary)] md:text-6xl">
                     Precision Management for the
                     <br />
                     Modern Enterprise
                 </h1>
 
-                <p className="mt-8 text-lg text-slate-600 max-w-3xl mx-auto leading-8">
+                <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-[var(--text-secondary)]">
                     Streamline HR, payroll, and attendance with uncompromising
                     accuracy. Nexus ERP provides developer-grade infrastructure
                     for organizational operations, turning complex data into
                     clear, actionable intelligence.
                 </p>
 
-                <div className="mt-12 flex flex-col sm:flex-row justify-center gap-5">
+                <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
 
-                    <button className="px-8 py-4 bg-indigo-600 text-white rounded-sm font-semibold shadow-lg hover:bg-indigo-700 transition-all duration-300">
+                    {/* Primary Button */}
+                    <button
+                        className="rounded-[var(--radius)] px-8 py-4 font-semibold text-[var(--text-white)] transition-all duration-300 hover:-translate-y-1"
+                        style={{
+                            background: "var(--primary)",
+                            boxShadow: "var(--shadow-md)",
+                        }}
+                        onMouseEnter={(e) =>
+                        (e.currentTarget.style.background = "var(--primary-dark)")
+                        }
+                        onMouseLeave={(e) =>
+                        (e.currentTarget.style.background = "var(--primary)")
+                        }
+                    >
                         Get Started →
                     </button>
 
-                    <button className="px-8 py-4 border border-gray-300 rounded-sm font-semibold text-slate-700 hover:bg-gray-100 transition-all duration-300">
+                    {/* Secondary Button */}
+                    <button
+                        className="rounded-[var(--radius)] border px-8 py-4 font-semibold transition-all duration-300 hover:bg-[var(--hover-bg)]"
+                        style={{
+                            borderColor: "var(--border)",
+                            color: "var(--text-primary)",
+                        }}
+                    >
                         View Documentation
                     </button>
 
                 </div>
-
             </div>
         </section>
-    )
+    );
 }
 
-export default Banner
+export default Banner;

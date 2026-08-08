@@ -5,12 +5,10 @@ import { Navigate, Outlet } from 'react-router';
 function PublicRoute() {
 
 
-    const { isAuthenticated, isLoading } = useSelector((state) => state.employee);
+    const { isAuthenticated, } = useSelector((state) => state.employee);
 
 
-    if (isLoading) {
-        return <h2>loadinng</h2>
-    }
+
 
 
     if (isAuthenticated) {

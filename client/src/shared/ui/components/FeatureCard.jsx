@@ -2,56 +2,71 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function FeatureCard({
     variant,
-    className,
+    className = "",
     icon,
     title,
     description,
     image,
-    list,
+    list = [],
     link,
 }) {
     return (
         <div
-            className={`
-      ${className}
-      rounded-[18px]
-      border
-      border-[#D9E1EC]
-    bg-[var(--background)]
-      p-8
-      `}
+            className={`rounded-[var(--radius)] border bg-[var(--card)] p-8 ${className}`}
+            style={{
+                borderColor: "var(--border)",
+                boxShadow: "var(--shadow-sm)",
+            }}
         >
             {/* Analytics */}
             {variant === "analytics" && (
-                <div className="flex h-full flex-col">
-                    <div className="text-indigo-600">{icon}</div>
+                <>
+                    <div
+                        className="w-fit rounded-xl p-3"
+                        style={{
+                            background: "var(--primary-bg)",
+                            color: "var(--primary)",
+                        }}
+                    >
+                        {icon}
+                    </div>
 
-                    <h3 className="mt-6 text-[30px] font-semibold text-slate-900">
+                    <h3 className="mt-6 text-3xl font-semibold text-[var(--text-primary)]">
                         {title}
                     </h3>
 
-                    <p className="mt-4 max-w-3xl text-[15px] leading-8 text-slate-600">
+                    <p className="mt-4 text-[15px] leading-8 text-[var(--text-secondary)]">
                         {description}
                     </p>
 
-                    <div className="mt-10">
+                    <div className="mt-10 overflow-hidden rounded-xl">
                         <img
                             src={image}
-                            alt=""
-                            className="h-[260px] w-full rounded-sm object-cover"
+                            alt={title}
+                            className="h-[260px] w-full object-cover transition-transform duration-300 hover:scale-105"
                         />
                     </div>
-                </div>
+                </>
             )}
 
             {/* Payroll */}
             {variant === "payroll" && (
                 <div className="flex h-full flex-col">
-                    <div className="text-indigo-600">{icon}</div>
+                    <div
+                        className="w-fit rounded-xl p-3"
+                        style={{
+                            background: "var(--primary-bg)",
+                            color: "var(--primary)",
+                        }}
+                    >
+                        {icon}
+                    </div>
 
-                    <h3 className="mt-6 text-[30px] font-semibold">{title}</h3>
+                    <h3 className="mt-6 text-3xl font-semibold text-[var(--text-primary)]">
+                        {title}
+                    </h3>
 
-                    <p className="mt-4 text-[15px] leading-8 text-slate-600">
+                    <p className="mt-4 text-[15px] leading-8 text-[var(--text-secondary)]">
                         {description}
                     </p>
 
@@ -60,9 +75,12 @@ export default function FeatureCard({
                             <div key={item} className="flex items-center gap-3">
                                 <CheckCircle2
                                     size={18}
-                                    className="text-green-600"
+                                    style={{ color: "var(--success)" }}
                                 />
-                                <span className="text-md text-slate-700">{item}</span>
+
+                                <span className="text-base text-[var(--text-primary)]">
+                                    {item}
+                                </span>
                             </div>
                         ))}
                     </div>
@@ -72,13 +90,21 @@ export default function FeatureCard({
             {/* Simple */}
             {variant === "simple" && (
                 <>
-                    <div className="text-indigo-600">{icon}</div>
+                    <div
+                        className="w-fit rounded-xl p-3"
+                        style={{
+                            background: "var(--primary-bg)",
+                            color: "var(--primary)",
+                        }}
+                    >
+                        {icon}
+                    </div>
 
-                    <h3 className="mt-6 text-[30px] font-semibold">
+                    <h3 className="mt-6 text-3xl font-semibold text-[var(--text-primary)]">
                         {title}
                     </h3>
 
-                    <p className="mt-4 text-[15px] leading-8 text-slate-600">
+                    <p className="mt-4 text-[15px] leading-8 text-[var(--text-secondary)]">
                         {description}
                     </p>
                 </>
@@ -87,27 +113,40 @@ export default function FeatureCard({
             {/* Time */}
             {variant === "time" && (
                 <div className="flex h-full flex-col lg:flex-row">
-                    <div className="flex flex-1 flex-col pr-8">
-                        <div className="text-indigo-600">{icon}</div>
+                    <div className="flex flex-1 flex-col pr-0 lg:pr-8">
+                        <div
+                            className="w-fit rounded-xl p-3"
+                            style={{
+                                background: "var(--primary-bg)",
+                                color: "var(--primary)",
+                            }}
+                        >
+                            {icon}
+                        </div>
 
-                        <h3 className="mt-6 text-[30px] font-semibold">
+                        <h3 className="mt-6 text-3xl font-semibold text-[var(--text-primary)]">
                             {title}
                         </h3>
 
-                        <p className="mt-4 text-[15px] leading-8 text-slate-600">
+                        <p className="mt-4 text-[15px] leading-8 text-[var(--text-secondary)]">
                             {description}
                         </p>
 
-                        <button className="mt-8 w-fit font-semibold text-indigo-600">
+                        <button
+                            className="mt-8 w-fit font-semibold transition-colors duration-300"
+                            style={{
+                                color: "var(--primary)",
+                            }}
+                        >
                             {link} →
                         </button>
                     </div>
 
-                    <div className="mt-8 lg:mt-0 lg:w-[42%]">
+                    <div className="mt-8 overflow-hidden rounded-xl lg:mt-0 lg:w-[42%]">
                         <img
                             src={image}
-                            alt=""
-                            className="h-full min-h-[240px] w-full rounded-sm object-cover"
+                            alt={title}
+                            className="h-full min-h-[240px] w-full object-cover transition-transform duration-300 hover:scale-105"
                         />
                     </div>
                 </div>

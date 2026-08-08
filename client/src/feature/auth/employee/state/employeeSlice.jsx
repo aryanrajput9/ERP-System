@@ -5,7 +5,8 @@ const initialState = {
     employee: null,
     accessToken: null,
     isLoading: true,
-    isAuthenticated: false
+    isAuthenticated: false,
+    error: null,
 }
 
 const employeeSlice = createSlice({
@@ -24,13 +25,17 @@ const employeeSlice = createSlice({
             state.employee = null;
             state.accessToken = null;
             state.isLoading = false
-        }
+        },
+
+        setError: (state, action) => {
+            state.error = action.payload;
+        },
     }
 
 });
 
 
 
-export const { setAccessToken, setEmployeeData, removeEmployeeData } = employeeSlice.actions;
+export const { setAccessToken, setEmployeeData, removeEmployeeData, isLoading, setError } = employeeSlice.actions;
 
 export default employeeSlice.reducer

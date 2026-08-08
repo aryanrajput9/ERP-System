@@ -8,9 +8,6 @@ function ProtectedRoute() {
 
 
 
-    if (isLoading) {
-        return <h2>loadinng</h2>
-    }
     if (!isAuthenticated) {
         return <Navigate to="/"></Navigate>
     }

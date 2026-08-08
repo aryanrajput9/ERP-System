@@ -17,7 +17,9 @@ function sanitizeEmployee(employee, accessToken = "") {
         department: employee.department,
         role: employee.role,
         isActive: employee.isActive,
-        accessToken
+        accessToken,
+        role: employee.role,
+        employeeId: employee.employeeId
 
     };
 };
