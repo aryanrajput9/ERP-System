@@ -1,6 +1,6 @@
+import { Outlet } from "react-router";
 import TopBar from "../../../../../shared/ui/components/TopBar";
 import SideBar from "../components/SideBar";
-import Dashboard from "./Dashboard";
 
 
 function home() {
@@ -22,7 +22,7 @@ function home() {
 
                 {/* Dashboard */}
                 <main className="flex-1 overflow-y-auto bg-[var(--background)] p-6">
-                    <Dashboard />
+                    <Outlet />
                 </main>
 
             </div>

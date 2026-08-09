@@ -77,6 +77,11 @@ const activities = [
         disabled: true,
     },
 ];
+const type = {
+    Present: "present",
+    Absent: "absent",
+    Late: "late"
+}
 
 // const attendance = [
 //     {
@@ -152,6 +157,23 @@ function Dashboard() {
 
     const { employee } = useSelector((state) => state.employee)
 
+
+    const { history } = useSelector((state) => state.attendance)
+
+    const presentCount = history.filter(
+        (item) => item.status === "Present"
+    ).length;
+
+
+    const absentCount = history.filter(
+        (item) => item.status === "Absent"
+    ).length;
+
+    const lateCount = history.filter(
+        (item) => item.status === "Late"
+    ).length;
+
+
     return (
         <div className="grid grid-cols-12 gap-6 ">
 
@@ -165,24 +187,26 @@ function Dashboard() {
                 <div className="grid grid-cols-4 gap-6">
                     <StatCard
                         icon={<CalendarCheck2 size={30} />}
-                        type="Present"
                         label="Present Days"
                         badge="Aug"
                         color="primary"
+                        value={presentCount}
                     />
 
                     <StatCard
                         icon={<CalendarX2 size={30} />}
-                        type="Absent"
+                        value={absentCount}
                         label="Absent"
                         color="danger"
+
                     />
 
                     <StatCard
                         icon={<Clock3 size={30} />}
-                        type="Late"
+                        value={lateCount}
                         label="Late"
                         color="warning"
+
                     />
                 </div>
 

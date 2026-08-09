@@ -1,20 +1,17 @@
-import { useSelector } from "react-redux";
+
 import colors from "tailwindcss/colors";
 
 const StatCard = ({
     icon,
-    type,
     suffix = "",
     label,
     badge,
+    value,
+
     color = "primary",
 }) => {
 
-    const { history } = useSelector((state) => state.attendance)
 
-    const value = history.filter(
-        (item) => item.status === type
-    ).length;
 
     return (
         <div
