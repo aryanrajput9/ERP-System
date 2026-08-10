@@ -54,7 +54,7 @@ function AttendancePage() {
     ).length;
 
     return (
-        <div className="space-y-6 p-4 bg-gray-50 min-h-screen">
+        <div className="space-y-6 p-4 bg-[var(--background)] min-h-screen">
 
             {/* Top Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -95,25 +95,40 @@ function AttendancePage() {
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
 
                 {/* Left */}
-                <div className="bg-white rounded-2xl border p-5">
+                <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold">Today&apos;s Attendance</h2>
-                        <span className="text-sm text-gray-500">Aug 09, 2026</span>
+                        <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                            Today&apos;s Attendance
+                        </h2>
+
+                        <span className="text-sm text-[var(--text-secondary)]">
+                            {new Date().toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                            })}
+                        </span>
                     </div>
 
                     <ActivityTimeline activities={activities} />
 
-                    <button className="mt-6 w-full rounded-xl bg-indigo-600 py-3 text-white font-medium hover:bg-indigo-700">
+                    <button className="mt-6 w-full rounded-xl bg-[var(--primary)] py-3 text-[var(--text-white)] font-medium hover:opacity-90 transition-opacity">
                         Check Out
                     </button>
                 </div>
 
                 {/* Right */}
-                <div className="bg-white rounded-2xl border p-5">
+                <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold">Attendance Calendar</h2>
-                        <button className="rounded-lg border px-3 py-1 text-sm">
-                            Aug 2026
+                        <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                            Attendance Calendar
+                        </h2>
+
+                        <button className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-sm text-[var(--text-primary)] hover:bg-[var(--hover-bg)] transition-colors">
+                            {new Date().toLocaleDateString("en-US", {
+                                month: "short",
+                                year: "numeric",
+                            })}
                         </button>
                     </div>
 
@@ -122,11 +137,13 @@ function AttendancePage() {
             </div>
 
             {/* Recent Attendance */}
-            <div className="bg-white rounded-2xl border p-5">
+            <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5 shadow-sm">
                 <div className="mb-4 flex items-center justify-between">
-                    <h2 className="text-lg font-semibold">Recent Attendance</h2>
+                    <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                        Recent Attendance
+                    </h2>
 
-                    <button className="text-sm font-medium text-indigo-600 hover:text-indigo-700">
+                    <button className="text-sm font-medium text-[var(--primary)] hover:opacity-80 transition-opacity">
                         View All →
                     </button>
                 </div>

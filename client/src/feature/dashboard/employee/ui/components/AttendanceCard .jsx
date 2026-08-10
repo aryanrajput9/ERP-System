@@ -1,7 +1,7 @@
 import { Hand } from "lucide-react";
 import { useSelector } from "react-redux";
 
-const AttendanceCard = ({ todayAttendance, checkInDate, checkInData }) => {
+const AttendanceCard = ({ todayAttendance, checkInDate, checkInData, checkOutData }) => {
 
     const { employee } = useSelector((state) => state.employee);
 
@@ -48,12 +48,13 @@ const AttendanceCard = ({ todayAttendance, checkInDate, checkInData }) => {
                         </span>
                     </div>
 
-                    {todayAttendance === null ? (
-                        <button onClick={() => checkInData()}
+                    {!todayAttendance?.checkIn ? (
+
+                        // User has not checked in yet
+                        <button
+                            onClick={checkInData}
                             className="flex items-center gap-3 rounded-2xl px-8 py-4 text-lg font-semibold text-[var(--text-white)] transition-all duration-300 hover:scale-[1.02]"
-                            style={{
-                                background: "var(--primary)",
-                            }}
+                            style={{ background: "var(--primary)" }}
                             onMouseEnter={(e) =>
                             (e.currentTarget.style.background = "var(--primary-dark)")
                             }
@@ -62,26 +63,38 @@ const AttendanceCard = ({ todayAttendance, checkInDate, checkInData }) => {
                             }
                         >
                             <Hand className="h-6 w-6 rotate-180" />
-
                             Check In
                         </button>
-                    ) : (
-                        <button onClick={() => checkInData()}
+
+                    ) : !todayAttendance?.checkOut ? (
+
+                        // User checked in but not checked out
+                        <button
+                            onClick={checkOutData}
                             className="flex items-center gap-3 rounded-2xl px-8 py-4 text-lg font-semibold text-[var(--text-white)] transition-all duration-300 hover:scale-[1.02]"
-                            style={{
-                                background: "var( --success)",
-                            }}
+                            style={{ background: "var(--success)" }}
                             onMouseEnter={(e) =>
-                            (e.currentTarget.style.background = "var(--primary-dark)")
+                            (e.currentTarget.style.background = "var(--secondary-dark)")
                             }
                             onMouseLeave={(e) =>
-                            (e.currentTarget.style.background = "var(--primary)")
+                            (e.currentTarget.style.background = "var(--success)")
                             }
                         >
-                            <Hand className="h-6 w-6 rotate-180 text-green-600" />
-
+                            <Hand className="h-6 w-6 rotate-180" />
                             Check Out
                         </button>
+
+                    ) : (
+
+                        // User already checked out
+                        <button
+                            disabled
+                            className="flex items-center gap-3 rounded-2xl px-8 py-4 text-lg font-semibold bg-gray-400 text-white cursor-not-allowed"
+                        >
+                            <Hand className="h-6 w-6 rotate-180" />
+                            Checked Out
+                        </button>
+
                     )}
 
                 </div>

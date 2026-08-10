@@ -77,11 +77,7 @@ const activities = [
         disabled: true,
     },
 ];
-const type = {
-    Present: "present",
-    Absent: "absent",
-    Late: "late"
-}
+
 
 // const attendance = [
 //     {
@@ -113,6 +109,17 @@ function Dashboard() {
             "remarks": "Checked in on time"
         });
 
+        dispatch(setTodayAttendance(resp))
+
+    };
+
+
+    async function checkOutData() {
+
+        const resp = await useEmployeAttendanceHook.checkOutHook({
+            "remarks": "Checked out on time"
+        });
+        console.log(resp)
         dispatch(setTodayAttendance(resp))
 
     };
@@ -181,7 +188,7 @@ function Dashboard() {
             <div className="col-span-9 flex flex-col gap-6">
 
                 {/* Greeting */}
-                <AttendanceCard todayAttendance={todayAttendance} checkInDate={checkInDate} checkInData={checkInData} />
+                <AttendanceCard todayAttendance={todayAttendance} checkInDate={checkInDate} checkInData={checkInData} checkOutData={checkOutData} />
 
                 {/* Stats */}
                 <div className="grid grid-cols-4 gap-6">

@@ -1,5 +1,6 @@
 
 import useEmployeAttendanceApi from "../../../../app/Api/employeAttendenceApi";
+import useAxiosInstence from "../../../../shared/services/axiosInstence";
 
 
 const useEmployeAttendanceHook = {
@@ -86,6 +87,11 @@ const useEmployeAttendanceHook = {
         const minutes = totalMinutes % 60;
 
         return `${hours}h ${minutes}m`;
+    },
+    checkOutHook: async (data) => {
+
+        const resp = await useEmployeAttendanceApi.checkOutApi(data);
+        return resp
     }
 }
 

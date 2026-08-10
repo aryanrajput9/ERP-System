@@ -1,3 +1,4 @@
+
 import useAxiosInstence from "../../shared/services/axiosInstence";
 
 
@@ -17,6 +18,10 @@ const useEmployeAttendanceApi = {
     },
     getAllAttendence: async () => {
         const resp = await useAxiosInstence.get("/attendence/get-All-attendence");
+        return resp.data.data
+    },
+    checkOutApi: async (data) => {
+        const resp = await useAxiosInstence.patch("/attendence/check-out", data);
         return resp.data.data
     }
 };

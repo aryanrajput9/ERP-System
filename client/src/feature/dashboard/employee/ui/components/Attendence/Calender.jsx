@@ -6,13 +6,12 @@ function Calender() {
     const currentDate = new Date();
 
     const year = currentDate.getFullYear();
-    const month = currentDate.getMonth(); // 0-11
+    const month = currentDate.getMonth();
 
-    const { history } = useSelector((state) => state.attendance)
+    const { history = [] } = useSelector((state) => state.attendance);
 
-    // Backend se aane wala data
+    // Attendance by day
     const attendanceData = (day) => {
-
         const record = history.find((elem) => {
             const date = new Date(elem.checkIn);
 
@@ -47,7 +46,7 @@ function Calender() {
         for (let day = 1; day <= totalDays; day++) {
             arr.push({
                 day,
-                status: attendanceData(day) || null,
+                status: attendanceData(day),
             });
         }
 
@@ -55,35 +54,37 @@ function Calender() {
     }, [year, month, history]);
 
     const dotColor = {
-        present: "bg-green-500",
-        absent: "bg-red-500",
-        late: "bg-orange-500",
-        leave: "bg-purple-500",
+        present: "bg-[var(--success)]",
+        absent: "bg-[var(--danger)]",
+        late: "bg-[var(--warning)]",
+        leave: "bg-[var(--primary)]",
     };
 
     return (
-        <div className="bg-white rounded-2xl border p-5 w-full">
+        <div className="w-full">
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-semibold">Attendance Calendar</h2>
+                <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                    Attendance Calendar
+                </h2>
 
                 <div className="flex items-center gap-2">
-                    <button className="p-2 rounded-lg border">
-                        <ChevronLeft size={18} />
+                    <button className="p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--hover-bg)] transition-colors">
+                        <ChevronLeft size={18} className="text-[var(--text-primary)]" />
                     </button>
 
-                    <span className="px-3 py-2 rounded-lg border text-sm font-medium">
+                    <span className="px-3 py-2 rounded-lg border border-[var(--border)] text-sm font-medium text-[var(--text-primary)] bg-[var(--surface)]">
                         {monthName} {year}
                     </span>
 
-                    <button className="p-2 rounded-lg border">
-                        <ChevronRight size={18} />
+                    <button className="p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--hover-bg)] transition-colors">
+                        <ChevronRight size={18} className="text-[var(--text-primary)]" />
                     </button>
                 </div>
             </div>
 
             {/* Week days */}
-            <div className="grid grid-cols-7 text-center text-sm font-medium text-gray-500 mb-3">
+            <div className="grid grid-cols-7 text-center text-sm font-medium text-[var(--text-secondary)] mb-3">
                 {days.map((d) => (
                     <div key={d} className="py-2">
                         {d}
@@ -92,7 +93,7 @@ function Calender() {
             </div>
 
             {/* Dates */}
-            <div className="grid grid-cols-7 gap-y-4">
+            <div className="grid grid-cols-7 gap-y-3">
                 {calendarDays.map((item, index) => (
                     <div
                         key={index}
@@ -100,17 +101,19 @@ function Calender() {
                     >
                         {item ? (
                             <div
-                                className={`relative flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium
+                                className={`relative flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium transition-colors
                   ${item.day === currentDate.getDate()
-                                        ? "border-2 border-purple-500 text-purple-600"
-                                        : "text-gray-700 hover:bg-gray-50"
+                                        ? "border-2 border-[var(--primary)] text-[var(--primary)] bg-[var(--surface-2)]"
+                                        : "text-[var(--text-primary)] hover:bg-[var(--hover-bg)]"
                                     }`}
                             >
                                 {item.day}
 
+                                {/* Status dot */}
                                 {item.status && (
                                     <span
-                                        className={`absolute bottom-1 w-1.5 h-1.5 rounded-full ${dotColor[item.status]}`}
+                                        className={`absolute bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full ${dotColor[item.status] || "bg-gray-400"
+                                            }`}
                                     />
                                 )}
                             </div>
@@ -122,24 +125,24 @@ function Calender() {
             </div>
 
             {/* Legend */}
-            <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-gray-600">
+            <div className="flex flex-wrap items-center justify-center gap-5 mt-6 text-sm text-[var(--text-secondary)]">
                 <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--success)]" />
                     Present
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--danger)]" />
                     Absent
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--warning)]" />
                     Late
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--primary)]" />
                     Leave
                 </div>
             </div>

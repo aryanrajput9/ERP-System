@@ -1,4 +1,6 @@
 import { Router } from 'express'
+import leaveEmployeeController from '../module/leave/controller/leave.controller.js';
+import authMiddleware from '../middleware/auth.middileware.js';
 
 
 
@@ -6,6 +8,12 @@ import { Router } from 'express'
 const leaveRoute = Router();
 
 
+leaveRoute.post("/take-leave", authMiddleware, leaveEmployeeController.createLeave)
+leaveRoute.get("/getleave/:employeeId", leaveEmployeeController.getLeaveById);
+
+leaveRoute.get("/get-leave", authMiddleware, leaveEmployeeController.getMyLeaves)
+
+leaveRoute.patch("/approveleave/:id", leaveEmployeeController.approveLeaveById);
 
 
 

@@ -8,6 +8,7 @@ import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import Dashboard from '../../feature/dashboard/employee/ui/pages/Dashboard';
 import AttendancePage from '../../feature/dashboard/employee/ui/pages/AttendencePage';
+import LeavePage from '../../feature/dashboard/employee/ui/pages/LeavePage';
 
 const AppRoutes = createBrowserRouter([
 
@@ -43,6 +44,10 @@ const AppRoutes = createBrowserRouter([
                             {
                                 path: "attendance",
                                 element: <AttendancePage />
+                            },
+                            {
+                                path: "leaves",
+                                element: <LeavePage />
                             }
                         ]
                     },
