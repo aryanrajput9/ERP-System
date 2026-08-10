@@ -21,12 +21,15 @@ const LeaveSlice = createSlice({
         setError: (state, action) => {
             state.error = action.payload
         },
+        setLoading: (state, action) => {
+            state.loading = action.payload;
+        },
 
     }
 
 });
 
 
-export const { setError, setLeave } = LeaveSlice.actions;
+export const { setError, setLeave, setLoading } = LeaveSlice.actions;
 
 export default LeaveSlice.reducer

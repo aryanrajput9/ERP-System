@@ -64,7 +64,7 @@ function SideBar() {
                     </h1>
 
                     <p className="text-sm text-[var(--text-secondary)]">
-                        HR Portal
+                        Employee Portal
                     </p>
                 </div>
             </div>

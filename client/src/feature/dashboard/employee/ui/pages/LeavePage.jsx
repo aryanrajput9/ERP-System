@@ -6,8 +6,8 @@ import LeaveFilter from '../components/leave/LeaveFilter';
 import LeaveTable from '../components/leave/LeaveTable';
 import ApplyLeaveForm from '../components/leave/ApplyLeaveForm';
 import useEmployeeLeaveHook from '../../hooks/useEmployeeLeaveHook';
-import { useDispatch } from 'react-redux';
-import { setError, setLeave } from '../../state/employeeLeaveSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setError, setLeave, setLoading } from '../../state/employeeLeaveSlice';
 
 
 
@@ -15,24 +15,39 @@ import { setError, setLeave } from '../../state/employeeLeaveSlice';
 function LeavePage() {
 
     const [hide, setHide] = useState(false);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const [leave, setLeaves] = useState([])
+    const [filteredLeave, setFilteredLeave] = useState([]);
+
 
     useEffect(() => {
         const getLeaveData = async () => {
 
-            try {
+            dispatch(setLoading(true)); // start loading
 
+            try {
                 const resp = await useEmployeeLeaveHook.getLeaveHook();
-                dispatch(setLeave(resp))
+
+                dispatch(setLeave(resp));
+                setLeaves(resp);
 
             } catch (error) {
-                dispatch(setError(error))
+                dispatch(setError(error.message));
+
+            } finally {
+                dispatch(setLoading(false)); // stop loading
             }
         };
 
-        getLeaveData()
+        getLeaveData();
 
-    }, [dispatch])
+    }, [dispatch]);
+
+
+    const leaveType = {
+        totalLeave: leave.length,
+    }
 
 
 
@@ -49,7 +64,7 @@ function LeavePage() {
                     label="Total Leaves"
                     badge="Total leaves this year"
                     color="primary"
-                    value={24}
+                    value={leaveType.totalLeave}
                 />
 
                 <StatCard
@@ -65,7 +80,7 @@ function LeavePage() {
                     label="Pending"
                     badge="Pending requests"
                     color="warning"
-                    value={5}
+                    value={leaveType.totalLeave}
                 />
 
                 <StatCard
@@ -79,7 +94,7 @@ function LeavePage() {
 
             {/* Filter + Sort */}
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <LeaveFilter />
+                <LeaveFilter setFilteredLeave={setFilteredLeave} leave={leave} />
 
                 <button className="rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--hover-bg)]">
                     Sort by: Newest
@@ -87,7 +102,7 @@ function LeavePage() {
             </div>
 
             {/* Table */}
-            <LeaveTable />
+            <LeaveTable leave={filteredLeave} />
 
             {/* Apply Form */}
             {hide && (
