@@ -50,6 +50,7 @@ export const authContoller = {
             profileImage,
             salary,
             employmentType,
+            role,
             address,
             city,
             state,
@@ -58,7 +59,16 @@ export const authContoller = {
         } = req.body;
 
         // ✅ COMMIT: Generate employeeId in one place
-        const employeeId = jwtToken.createEmployeId();
+        let employeeId;
+
+        if (role === "Manager") {
+
+            employeeId = jwtToken.createManagerId();
+        } else if (role === "Hr") {
+            employeeId = jwtToken.createHrId()
+        } else {
+            employeeId = jwtToken.createEmployeId()
+        }
 
         const input = {
             employeeId,
@@ -72,6 +82,7 @@ export const authContoller = {
             profileImage,
             salary,
             employmentType,
+            role,
             address,
             city,
             state,

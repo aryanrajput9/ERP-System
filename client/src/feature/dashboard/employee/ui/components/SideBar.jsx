@@ -5,8 +5,15 @@ import {
     Wallet,
     User,
     Sparkles,
+    Home,
+    Users,
+    CheckSquare,
+    CalendarCheck,
+    MessageCircle,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import ProfileButton from "./profile/ProfileButton";
 
 const menus = [
     {
@@ -35,8 +42,43 @@ const menus = [
         path: "/dashboard/profile",
     },
 ];
+const adminMenu = [
+    {
+        title: "Dashboard",
+        icon: Home,
+        path: "/admin",
+    },
+    {
+        title: "Team",
+        icon: Users,
+        path: "/admin/team",
+    },
+    {
+        title: "Tasks",
+        icon: CheckSquare,
+        path: "/admin/tasks",
+    },
+    {
+        title: "Attendance",
+        icon: CalendarDays,
+        path: "/admin/attendence",
+    },
+    {
+        title: "Leave",
+        icon: CalendarCheck,
+        path: "/admin/leave",
+    },
+    {
+        title: "Chats",
+        icon: MessageCircle,
+        path: "/admin/chats",
+    },
+];
 
 function SideBar() {
+
+    const { employee } = useSelector((state) => state.employee)
+
     return (
         <aside
             className="flex h-screen w-[280px] flex-col border-r p-6"
@@ -72,7 +114,7 @@ function SideBar() {
             {/* Navigation */}
 
             <nav className="mt-10 flex-1 space-y-2">
-                {menus.map((item) => {
+                {employee.role === "employee" ? menus : adminMenu.map((item) => {
                     const Icon = item.icon;
 
                     return (
@@ -93,6 +135,8 @@ function SideBar() {
                                     ? "var(--shadow-sm)"
                                     : "none",
                             })}
+
+                            end
                         >
                             <Icon size={20} />
 
@@ -104,7 +148,7 @@ function SideBar() {
 
             {/* Button */}
 
-            <button
+            {employee.role === "employee" ? <button
                 className="rounded-[var(--radius)] py-4 font-semibold text-[var(--text-white)] transition-all duration-300 hover:scale-[1.02]"
                 style={{
                     background: "var(--primary)",
@@ -117,7 +161,7 @@ function SideBar() {
                 }
             >
                 Apply Leave
-            </button>
+            </button> : <ProfileButton employee={employee.name} role={employee.role} employeImage={employee.profileImage} />}
         </aside>
     );
 }

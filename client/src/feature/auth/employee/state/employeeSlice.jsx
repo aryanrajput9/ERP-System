@@ -30,12 +30,15 @@ const employeeSlice = createSlice({
         setError: (state, action) => {
             state.error = action.payload;
         },
+        setLoading: (state, action) => {
+            state.isLoading = action.payload
+        }
     }
 
 });
 
 
 
-export const { setAccessToken, setEmployeeData, removeEmployeeData, isLoading, setError } = employeeSlice.actions;
+export const { setAccessToken, setEmployeeData, removeEmployeeData, isLoading, setError, setLoading } = employeeSlice.actions;
 
 export default employeeSlice.reducer

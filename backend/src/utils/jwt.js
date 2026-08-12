@@ -19,6 +19,12 @@ export const jwtToken = {
     createEmployeId() {
         return `EMP${randomUUID()}`
     },
+    createManagerId() {
+        return `MGR${randomUUID()}`
+    },
+    createHrId() {
+        return `HR${randomUUID()}`
+    },
     verifyAccessToken(payload) {
         return jwt.verify(payload, env.accessToken)
     },

@@ -24,7 +24,11 @@ const useEmployeeHook = {
             dispatch(setEmployeeData(resp))
             dispatch(setAccessToken(resp.accessToken))
             dispatch(setError(resp.message))
-            navigate("/dashboard/home")
+            if (resp.role === "Employee") {
+                navigate("/dashboard/home");
+            } else {
+                navigate("/admin");
+            }
             reset()
         };
 

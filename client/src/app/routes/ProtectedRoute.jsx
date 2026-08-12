@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router';
 
 function ProtectedRoute() {
 
-    const { isAuthenticated, isLoading } = useSelector((state) => state.employee);
+    const { isAuthenticated } = useSelector((state) => state.employee);
 
 
 

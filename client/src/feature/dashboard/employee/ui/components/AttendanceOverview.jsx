@@ -88,7 +88,7 @@ const AttendanceOverview = ({
                         </h3>
 
                         <p className="mt-1 text-sm text-[var(--text-secondary)]">
-                            {new Date(todayAttendance.checkOut).toLocaleTimeString("en-IN", {
+                            {new Date(todayAttendance?.checkOut).toLocaleTimeString("en-IN", {
                                 hour: "2-digit",
                                 minute: "2-digit",
                             })}
@@ -100,7 +100,7 @@ const AttendanceOverview = ({
                             </p>
 
                             <p className="mt-1 text-xl font-bold text-[var(--text-primary)]">
-                                {new Date(todayAttendance.checkOut).toLocaleDateString("en-IN", {
+                                {new Date(todayAttendance?.checkOut).toLocaleDateString("en-IN", {
                                     day: "2-digit",
                                     month: "short",
                                     year: "numeric"
