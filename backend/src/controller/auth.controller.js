@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from "../constant/http-statuscode.js";
+import { Employee } from "../model/employe.model.js";
 import { authServices } from "../services/auth.services.js";
 import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-respinse.js";
@@ -19,7 +20,8 @@ function sanitizeEmployee(employee, accessToken = "") {
         isActive: employee.isActive,
         accessToken,
         role: employee.role,
-        employeeId: employee.employeeId
+        employeeId: employee.employeeId,
+        joiningDate: employee.joiningDate
 
     };
 };
@@ -193,4 +195,15 @@ export const authContoller = {
             )
         );
     }),
+
+    getAllEmploye: asyncHandler(async (_req, res) => {
+
+        const employee = await Employee.find(
+            { role: "Employee" }
+        );
+
+        return res.status(200).json(
+            employee.map(sanitizeEmployee)
+        )
+    })
 };

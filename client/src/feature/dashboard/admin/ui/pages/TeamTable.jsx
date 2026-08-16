@@ -1,4 +1,5 @@
 import { MoreVertical } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const employees = [
     {
@@ -36,6 +37,8 @@ const employees = [
 ];
 
 export default function TeamTable() {
+
+    const { allEmploye } = useSelector((state) => state.admin)
     return (
         <div
             className="overflow-hidden rounded-2xl border shadow-sm"
@@ -63,7 +66,7 @@ export default function TeamTable() {
 
             {/* Rows */}
             <div className="divide-y" style={{ borderColor: "var(--border)" }}>
-                {employees.map((emp) => (
+                {allEmploye.map((emp) => (
                     <div
                         key={emp.email}
                         className="grid grid-cols-[2fr_1.5fr_1.2fr_1fr_1fr_80px] items-center gap-4 px-6 py-4"
@@ -71,8 +74,8 @@ export default function TeamTable() {
                         {/* Employee */}
                         <div className="flex items-center gap-3">
                             <img
-                                src={emp.avatar}
-                                alt={emp.name}
+                                src={emp.profileImage}
+                                alt={emp.profileImage}
                                 className="h-10 w-10 rounded-full object-cover"
                             />
 
@@ -122,7 +125,11 @@ export default function TeamTable() {
                             className="text-sm"
                             style={{ color: "var(--text-secondary)" }}
                         >
-                            {emp.joined}
+                            {new Date(emp.joiningDate).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric"
+                            })}
                         </p>
 
                         {/* Action */}

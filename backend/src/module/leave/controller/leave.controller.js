@@ -1,6 +1,7 @@
 import { HTTP_STATUS } from "../../../constant/http-statuscode.js";
 import { ApiResponse } from "../../../utils/api-respinse.js";
 import { asyncHandler } from "../../../utils/async-hanlder.js";
+import leaveRepository from "../repository/leave.repositorry.js";
 import leaveServices from "../services/leave.service.js";
 
 
@@ -41,6 +42,7 @@ const leaveEmployeeController = {
     approveLeaveById: asyncHandler(async (req, res) => {
         const { id } = req.params;
 
+        console.log(req.employee)
         const leave = await leaveServices.approveLeaveById(
             id,
             req.employee._id
@@ -61,6 +63,18 @@ const leaveEmployeeController = {
             new ApiResponse(200, "Leave Rejected", leave)
         );
     }),
+    getAllLeave: asyncHandler(async (_req, res) => {
+
+        const allleave = await leaveRepository.getAllLeave();
+
+        return res.status(HTTP_STATUS.OK).json(
+            new ApiResponse(
+                HTTP_STATUS.OK,
+                "All Leave",
+                allleave
+            )
+        )
+    })
 };
 
 

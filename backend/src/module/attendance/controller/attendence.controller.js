@@ -2,6 +2,8 @@ import { HTTP_STATUS } from "../../../constant/http-statuscode.js";
 import { asyncHandler } from "../../../utils/async-hanlder.js";
 import { attendanceServices } from "../services/attendence.services.js";
 import { ApiResponse } from "../../../utils/api-respinse.js";
+import { Attendance } from "../schema/attendance.schema.js";
+import { Employee } from "../../../model/employe.model.js";
 
 export const attendanceController = {
 
@@ -86,6 +88,60 @@ export const attendanceController = {
                 attendance
             )
         );
+    }),
+    getAllEmployeeAttendence: asyncHandler(async (req, res) => {
+
+
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1)
+
+        const allattendence = await Employee.aggregate([
+            {
+                $match: { role: "Employee" }
+            },
+            {
+                $lookup: {
+                    from: "attendances",
+                    let: { empId: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$employee", "$$empId"] },
+                                        { $gte: ["$date", today] },
+                                        { $lt: ["$date", tomorrow] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "todayAttendance"
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    employeeId: 1,
+                    firstName: 1,
+                    email: 1,
+                    profileImage: 1,
+                    department: 1,
+                    designation: 1,
+                    employmentType: 1,
+                    role: 1,
+                    todayAttendance: 1
+                }
+            }
+        ])
+
+        return res.status(200).json(
+            allattendence
+        )
     })
 
 };

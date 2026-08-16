@@ -106,7 +106,7 @@ function SideBar() {
                     </h1>
 
                     <p className="text-sm text-[var(--text-secondary)]">
-                        Employee Portal
+                        {employee.role === "Employee" ? "Employee Portal" : "HR Portal"}
                     </p>
                 </div>
             </div>
@@ -114,7 +114,7 @@ function SideBar() {
             {/* Navigation */}
 
             <nav className="mt-10 flex-1 space-y-2">
-                {employee.role === "employee" ? menus : adminMenu.map((item) => {
+                {(employee.role === "Employee" ? menus : adminMenu).map((item) => {
                     const Icon = item.icon;
 
                     return (
@@ -128,18 +128,12 @@ function SideBar() {
                                 }`
                             }
                             style={({ isActive }) => ({
-                                background: isActive
-                                    ? "var(--primary)"
-                                    : "transparent",
-                                boxShadow: isActive
-                                    ? "var(--shadow-sm)"
-                                    : "none",
+                                background: isActive ? "var(--primary)" : "transparent",
+                                boxShadow: isActive ? "var(--shadow-sm)" : "none",
                             })}
-
                             end
                         >
                             <Icon size={20} />
-
                             <span>{item.title}</span>
                         </NavLink>
                     );

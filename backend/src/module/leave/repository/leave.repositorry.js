@@ -27,7 +27,7 @@ const leaveRepository = {
                 status: "Approved",
                 approvedBy,
             },
-            { new: true }
+            { returnDocument: "after" }
         );
     },
 
@@ -42,6 +42,12 @@ const leaveRepository = {
             { new: true }
         );
     },
+    getAllLeave: async () => {
+        const allleave = await Leave.find().populate(
+            "employee", "firstName lastName   profileImage"
+        );
+        return allleave
+    }
 };
 
 

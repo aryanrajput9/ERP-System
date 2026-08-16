@@ -73,7 +73,7 @@ function Wave({ color }) {
     );
 }
 
-export default function StatsCards() {
+export default function StatsCards({ admin }) {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
             {stats.map((item) => (
@@ -104,7 +104,7 @@ export default function StatsCards() {
                                 className="mt-1 text-3xl font-bold"
                                 style={{ color: "var(--text-primary)" }}
                             >
-                                {item.value}
+                                {admin?.length}
                             </h3>
                         </div>
                     </div>

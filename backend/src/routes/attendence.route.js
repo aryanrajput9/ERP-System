@@ -17,6 +17,9 @@ attendanceRoute.get("/get-All-attendence", authMiddleware, attendanceController.
 
 attendanceRoute.get("/allattendence/:employeeId", attendanceController.getAttendanceByEmployeeId);
 
+attendanceRoute.get("/all-attendence-allEmploye", attendanceController.getAllEmployeeAttendence)
+
+
 
 // POST / api / attendance / check -in
 //     PATCH / api / attendance / check - out

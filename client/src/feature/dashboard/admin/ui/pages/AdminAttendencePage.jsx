@@ -1,37 +1,31 @@
 import { Calendar, Search } from "lucide-react";
+import { useSelector } from "react-redux";
 
-const attendance = [
-    {
-        name: "Amit Sharma",
-        department: "Design",
-        checkIn: "09:05 AM",
-        checkOut: "06:20 PM",
-        status: "Present",
-    },
-    {
-        name: "Priya Singh",
-        department: "Development",
-        checkIn: "09:32 AM",
-        checkOut: "06:15 PM",
-        status: "Late",
-    },
-    {
-        name: "Rohit Kumar",
-        department: "Development",
-        checkIn: "--",
-        checkOut: "--",
-        status: "Absent",
-    },
-    {
-        name: "Neha Joshi",
-        department: "HR",
-        checkIn: "--",
-        checkOut: "--",
-        status: "On Leave",
-    },
-];
+
 
 export default function AdminAttendancePage() {
+
+    const { allEmployeeAttendance } = useSelector((state) => state.admin);
+
+
+    const presentCount = allEmployeeAttendance.filter(
+        (emp) => emp.todayAttendance?.[0]?.status === "Present"
+    ).length;
+
+    const lateCount = allEmployeeAttendance.filter(
+        (emp) => emp.todayAttendance?.[0]?.status === "Late"
+    ).length;
+
+    const absentCount = allEmployeeAttendance.filter(
+        (emp) => emp.todayAttendance?.length === 0 ||
+            emp.todayAttendance?.[0]?.status === "Absent"
+    ).length;
+
+    const leaveCount = allEmployeeAttendance.filter(
+        (emp) => emp.todayAttendance?.[0]?.status === "Leave"
+    ).length;
+
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -66,6 +60,7 @@ export default function AdminAttendancePage() {
             </div>
 
             {/* Stats */}
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {/* Present */}
                 <div
@@ -82,7 +77,7 @@ export default function AdminAttendancePage() {
                         Present
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-green-600">38</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-green-600">{presentCount}</h3>
                 </div>
 
                 {/* Late */}
@@ -100,7 +95,7 @@ export default function AdminAttendancePage() {
                         Late
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-orange-600">4</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-orange-600">{lateCount}</h3>
                 </div>
 
                 {/* Absent */}
@@ -118,7 +113,7 @@ export default function AdminAttendancePage() {
                         Absent
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-red-600">2</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-red-600">{absentCount}</h3>
                 </div>
 
                 {/* On Leave */}
@@ -136,9 +131,11 @@ export default function AdminAttendancePage() {
                         On Leave
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-violet-600">3</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-violet-600">{leaveCount}</h3>
                 </div>
             </div>
+
+
 
             {/* Filters */}
             <div
@@ -210,9 +207,10 @@ export default function AdminAttendancePage() {
                     className="divide-y"
                     style={{ borderColor: "var(--border)" }}
                 >
-                    {attendance.map((emp) => (
+                    {allEmployeeAttendance.map((emp) => (
+
                         <div
-                            key={emp.name}
+                            key={emp._id}
                             className="grid grid-cols-[2fr_1.2fr_1fr_1fr_1fr] items-center gap-4 px-6 py-4"
                         >
                             {/* Name */}
@@ -220,7 +218,7 @@ export default function AdminAttendancePage() {
                                 className="font-medium"
                                 style={{ color: "var(--text-primary)" }}
                             >
-                                {emp.name}
+                                {emp?.firstName}
                             </p>
 
                             {/* Department */}
@@ -228,7 +226,7 @@ export default function AdminAttendancePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {emp.department}
+                                {emp?.department || "Not Assign"}
                             </p>
 
                             {/* Check In */}
@@ -236,7 +234,11 @@ export default function AdminAttendancePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {emp.checkIn}
+                                {!emp.todayAttendance.length || !emp?.todayAttendance[0]?.checkIn ? "not checkIn" : new Date(emp?.todayAttendance[0]?.checkIn).toLocaleDateString("en-IN", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric"
+                                })}
                             </p>
 
                             {/* Check Out */}
@@ -244,22 +246,29 @@ export default function AdminAttendancePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {emp.checkOut}
+
+                                {!emp?.todayAttendance?.length || !emp?.todayAttendance[0]?.checkOut
+                                    ? "Not Checked Out"
+                                    : new Date(emp.todayAttendance[0].checkOut).toLocaleDateString("en-IN", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                    })}
                             </p>
 
                             {/* Status */}
                             <div>
                                 <span
-                                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${emp.status === "Present"
+                                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${emp?.todayAttendance[0]?.status === "Present"
                                         ? "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400"
-                                        : emp.status === "Late"
+                                        : emp?.status === "Late"
                                             ? "bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400"
                                             : emp.status === "Absent"
                                                 ? "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-400"
                                                 : "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400"
                                         }`}
                                 >
-                                    {emp.status}
+                                    {emp.todayAttendance.length === 0 ? "Leave" : emp?.todayAttendance[0]?.status}
                                 </span>
                             </div>
                         </div>

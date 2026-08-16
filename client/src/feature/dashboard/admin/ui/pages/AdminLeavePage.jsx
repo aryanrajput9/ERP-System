@@ -1,33 +1,58 @@
 import { Search, ChevronDown, Check, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import allLeaveDataHook from "../../hooks/allLeaveDataHook";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllLeave, setError } from "../../state/adminSlice";
+import Spinner from "../../../../../shared/ui/components/Spinner";
+import ReasonLeave from "../components/ReasonLeave";
 
-const leaves = [
-    {
-        name: "Priya Singh",
-        type: "Sick Leave",
-        from: "12 Aug 2026",
-        to: "13 Aug 2026",
-        days: 2,
-        status: "Pending",
-    },
-    {
-        name: "Amit Sharma",
-        type: "Casual Leave",
-        from: "15 Aug 2026",
-        to: "15 Aug 2026",
-        days: 1,
-        status: "Approved",
-    },
-    {
-        name: "Rohit Kumar",
-        type: "Annual Leave",
-        from: "18 Aug 2026",
-        to: "20 Aug 2026",
-        days: 3,
-        status: "Rejected",
-    },
-];
 
 export default function AdminLeavePage() {
+
+    const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
+    const [ids, setId] = useState("")
+
+    useEffect(() => {
+
+        const fetchLevae = async () => {
+            try {
+
+                const resp = await allLeaveDataHook.getAllLeave();
+                dispatch(setAllLeave(resp))
+
+            } catch (error) {
+                setError(error)
+            }
+
+        };
+
+
+        fetchLevae()
+
+    }, []);
+
+    const approveLeave = async (id) => {
+
+        const approveLeave = await allLeaveDataHook.approveLeave(id);
+        return approveLeave
+    };
+
+
+
+
+    const { allLeaveLoading, allLeave } = useSelector((state) => state.admin)
+
+    if (allLeaveLoading) {
+        return <Spinner />
+    }
+
+    const pendingRequest = allLeave.filter((elm) => elm.status === "Pending").length;
+    const approvedRequest = allLeave.filter((elm) => elm.status === "Approved").length;
+    const rejectRequest = allLeave.filter((elm) => elm.status === "Rejected").length;
+    const leaveRequest = allLeave.filter((elm) => elm.status === "Leave").length
+
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -64,7 +89,7 @@ export default function AdminLeavePage() {
                         Pending Requests
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-orange-600">5</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-orange-600">{pendingRequest}</h3>
                 </div>
 
                 {/* Approved */}
@@ -82,7 +107,7 @@ export default function AdminLeavePage() {
                         Approved
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-green-600">18</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-green-600">{approvedRequest}</h3>
                 </div>
 
                 {/* Rejected */}
@@ -100,7 +125,7 @@ export default function AdminLeavePage() {
                         Rejected
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-red-600">2</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-red-600">{rejectRequest}</h3>
                 </div>
 
                 {/* On Leave */}
@@ -118,7 +143,7 @@ export default function AdminLeavePage() {
                         On Leave Today
                     </p>
 
-                    <h3 className="mt-2 text-3xl font-bold text-violet-600">3</h3>
+                    <h3 className="mt-2 text-3xl font-bold text-violet-600">{leaveRequest}</h3>
                 </div>
             </div>
 
@@ -188,14 +213,20 @@ export default function AdminLeavePage() {
                     <p className="text-center">Action</p>
                 </div>
 
+
+                {open ? <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"> <ReasonLeave id={ids} setOpen={setOpen} />  </div> : ""}
+
+
+
+
                 {/* Rows */}
                 <div
                     className="divide-y"
                     style={{ borderColor: "var(--border)" }}
                 >
-                    {leaves.map((leave) => (
+                    {allLeave.map((leave) => (
                         <div
-                            key={leave.name + leave.from}
+                            key={leave._id}
                             className="grid grid-cols-[1.5fr_1fr_1fr_1fr_0.8fr_1fr_1.2fr] items-center gap-4 px-6 py-4"
                         >
                             {/* Name */}
@@ -203,7 +234,7 @@ export default function AdminLeavePage() {
                                 className="font-medium"
                                 style={{ color: "var(--text-primary)" }}
                             >
-                                {leave.name}
+                                {leave.employee.firstName + leave.employee.lastName}
                             </p>
 
                             {/* Type */}
@@ -211,7 +242,7 @@ export default function AdminLeavePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {leave.type}
+                                {leave.leaveType}
                             </p>
 
                             {/* From */}
@@ -219,7 +250,11 @@ export default function AdminLeavePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {leave.from}
+                                {new Date(leave.startDate).toLocaleDateString("en-IN", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric"
+                                })}
                             </p>
 
                             {/* To */}
@@ -227,7 +262,11 @@ export default function AdminLeavePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {leave.to}
+                                {new Date(leave.endDate).toLocaleDateString("en-IN", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric"
+                                })}
                             </p>
 
                             {/* Days */}
@@ -235,7 +274,7 @@ export default function AdminLeavePage() {
                                 className="text-sm"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {leave.days}
+                                {leave.totalDays}
                             </p>
 
                             {/* Status */}
@@ -253,15 +292,37 @@ export default function AdminLeavePage() {
                             </div>
 
                             {/* Actions */}
-                            <div className="flex items-center justify-center gap-2">
-                                <button className="rounded-lg bg-green-100 p-2 text-green-700 transition hover:bg-green-200 dark:bg-green-500/15 dark:text-green-400 dark:hover:bg-green-500/25">
-                                    <Check size={16} />
-                                </button>
+                            {leave.status === "Pending" ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <button
+                                        onClick={() => approveLeave(leave._id)}
+                                        className="rounded-lg bg-green-100 p-2 text-green-700 transition hover:bg-green-200 dark:bg-green-500/15 dark:text-green-400 dark:hover:bg-green-500/25"
+                                    >
+                                        <Check size={16} />
+                                    </button>
 
-                                <button className="rounded-lg bg-red-100 p-2 text-red-700 transition hover:bg-red-200 dark:bg-red-500/15 dark:text-red-400 dark:hover:bg-red-500/25">
-                                    <X size={16} />
-                                </button>
-                            </div>
+                                    <button
+                                        onClick={() => {
+                                            setOpen((prev) => !prev)
+                                            setId(leave._id)
+                                        }}
+                                        className="rounded-lg bg-red-100 p-2 text-red-700 transition hover:bg-red-200 dark:bg-red-500/15 dark:text-red-400 dark:hover:bg-red-500/25"
+                                    >
+                                        <X size={16} />
+                                    </button>
+                                </div>
+                            ) : (
+                                <p
+                                    className={`font-medium ml-11 ${leave.status === "Approved"
+                                        ? "text-green-500"
+                                        : leave.status === "Rejected"
+                                            ? "text-red-500"
+                                            : "text-yellow-500"
+                                        }`}
+                                >
+                                    {leave.status}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>

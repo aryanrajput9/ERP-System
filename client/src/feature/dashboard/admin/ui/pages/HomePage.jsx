@@ -2,10 +2,48 @@ import { Handshake } from "lucide-react";
 import StatsCards from "../components/StatsCards";
 import TasksOverview from "../components/TasksOverview";
 import TeamActivity from "../components/TeamActivity";
-import TeamStats from "../components/TeamStats";
+import { useEffect } from "react";
+import useAllEmployeeData from "../../hooks/useAllEmployeData";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllEmploye, setAllEmployeeAttendance, setError } from "../../state/adminSlice";
+import Spinner from "../../../../../shared/ui/components/Spinner";
 
 
 function HomePage() {
+
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+
+        const fetchEmployeeData = async () => {
+            try {
+
+                const data = await useAllEmployeeData.getAllEmployee();
+                dispatch(setAllEmploye(data));
+
+                const allAttendanceData = await useAllEmployeeData.getAllEmployeeAttendance();
+
+                dispatch(setAllEmployeeAttendance(allAttendanceData))
+
+                return data
+
+            } catch (error) {
+                dispatch(setError(error))
+            }
+        }
+
+        fetchEmployeeData()
+
+    }, [dispatch]);
+
+
+    const { allEmployeLoading, allEmploye } = useSelector((state) => state.admin);
+
+    if (allEmployeLoading) {
+        return <Spinner />
+    }
+
+
     return (
         <div className="flex flex-col gap-10">
             <div className="flex items-center justify-between px-8 py-5 bg-white rounded-2xl shadow-sm">
@@ -31,7 +69,7 @@ function HomePage() {
                 </div>
 
             </div>
-            <StatsCards />
+            <StatsCards admin={allEmploye} />
             <div className="flex  gap-4">
                 <TasksOverview />
                 <TeamActivity />

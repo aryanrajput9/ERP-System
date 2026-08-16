@@ -8,12 +8,18 @@ import authMiddleware from '../middleware/auth.middileware.js';
 const leaveRoute = Router();
 
 
-leaveRoute.post("/take-leave", authMiddleware, leaveEmployeeController.createLeave)
+leaveRoute.post("/take-leave", authMiddleware, leaveEmployeeController.createLeave);
+
 leaveRoute.get("/getleave/:employeeId", leaveEmployeeController.getLeaveById);
 
 leaveRoute.get("/get-leave", authMiddleware, leaveEmployeeController.getMyLeaves)
 
-leaveRoute.patch("/approveleave/:id", leaveEmployeeController.approveLeaveById);
+leaveRoute.patch("/approveleave/:id", authMiddleware, leaveEmployeeController.approveLeaveById);
+
+
+leaveRoute.patch("/rejectleave/:id", authMiddleware, leaveEmployeeController.rejectLeaveById);
+
+leaveRoute.get("/all-leave", leaveEmployeeController.getAllLeave)
 
 
 

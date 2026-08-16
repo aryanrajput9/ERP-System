@@ -1,29 +1,17 @@
 import { Calendar, MoreVertical } from "lucide-react";
+import { useSelector } from "react-redux";
+import Spinner from "../../../../../shared/ui/components/Spinner";
 
-const tasks = [
-    {
-        title: "Design Login Page",
-        desc: "Create login page for the admin panel",
-        assignee: "Amit Sharma",
-        role: "UI/UX Designer",
-        priority: "High",
-        status: "In Progress",
-        due: "May 18, 2025",
-        avatar: "https://i.pravatar.cc/100?img=12",
-    },
-    {
-        title: "Fix UI Bugs",
-        desc: "Resolve the UI issues reported in the dashboard",
-        assignee: "Priya Singh",
-        role: "Frontend Developer",
-        priority: "Medium",
-        status: "In Progress",
-        due: "May 17, 2025",
-        avatar: "https://i.pravatar.cc/100?img=32",
-    },
-];
+
 
 function TeamTaskTable() {
+
+    const { alltask, allTaskLoading } = useSelector((state) => state.admin);
+
+    if (allTaskLoading) {
+        return <Spinner />
+    }
+
     return (
         <div
             className="overflow-hidden rounded-2xl border shadow-sm"
@@ -51,7 +39,7 @@ function TeamTaskTable() {
 
             {/* Rows */}
             <div className="divide-y" style={{ borderColor: "var(--border)" }}>
-                {tasks.map((task) => (
+                {alltask.map((task) => (
                     <div
                         key={task.title}
                         className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1fr_80px] items-center gap-4 px-6 py-4"
@@ -66,17 +54,17 @@ function TeamTaskTable() {
                             </p>
 
                             <p
-                                className="mt-1 text-sm"
+                                className="mt-1 text-sm line-clamp-1"
                                 style={{ color: "var(--text-secondary)" }}
                             >
-                                {task.desc}
+                                {task.description}
                             </p>
                         </div>
 
                         {/* Assignee */}
                         <div className="flex items-center gap-3">
                             <img
-                                src={task.avatar}
+                                src={task.assignedTo.profileImage}
                                 alt={task.assignee}
                                 className="h-10 w-10 rounded-full object-cover"
                             />
@@ -86,14 +74,14 @@ function TeamTaskTable() {
                                     className="font-medium"
                                     style={{ color: "var(--text-primary)" }}
                                 >
-                                    {task.assignee}
+                                    {task.assignedTo.firstName + task.assignedTo.lastName}
                                 </p>
 
                                 <p
                                     className="text-sm"
                                     style={{ color: "var(--text-secondary)" }}
                                 >
-                                    {task.role}
+                                    {task.assignedTo.role}
                                 </p>
                             </div>
                         </div>
@@ -133,7 +121,11 @@ function TeamTaskTable() {
                                 size={16}
                                 style={{ color: "var(--text-muted)" }}
                             />
-                            {task.due}
+                            {new Date(task.dueDate).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric"
+                            })}
                         </div>
 
                         {/* Actions */}

@@ -10,44 +10,7 @@ import {
     UserX,
 } from "lucide-react";
 
-const stats = [
-    {
-        title: "Total Employees",
-        value: 42,
-        change: "↑ 6% vs last month",
-        icon: Users,
-        iconBg: "bg-violet-100 dark:bg-violet-500/15",
-        iconColor: "text-violet-600 dark:text-violet-400",
-        changeColor: "text-green-600 dark:text-green-400",
-    },
-    {
-        title: "Active Employees",
-        value: 38,
-        change: "↑ 8% vs last month",
-        icon: Briefcase,
-        iconBg: "bg-blue-100 dark:bg-blue-500/15",
-        iconColor: "text-blue-600 dark:text-blue-400",
-        changeColor: "text-green-600 dark:text-green-400",
-    },
-    {
-        title: "New This Month",
-        value: 5,
-        change: "↑ 2 vs last month",
-        icon: UserPlus,
-        iconBg: "bg-green-100 dark:bg-green-500/15",
-        iconColor: "text-green-600 dark:text-green-400",
-        changeColor: "text-green-600 dark:text-green-400",
-    },
-    {
-        title: "On Leave",
-        value: 3,
-        change: "↓ 1 vs last month",
-        icon: UserX,
-        iconBg: "bg-orange-100 dark:bg-orange-500/15",
-        iconColor: "text-orange-600 dark:text-orange-400",
-        changeColor: "text-red-500 dark:text-red-400",
-    },
-];
+
 
 function Team() {
     return (
@@ -89,7 +52,49 @@ function Team() {
             </div>
 
             {/* Stats */}
-            <TeamStats stats={stats} />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+                <TeamStats
+                    title="Total Employees"
+                    value={42}
+                    change="↑ 6% vs last month"
+                    icon={Users}
+                    iconBg="bg-violet-100 dark:bg-violet-500/15"
+                    iconColor="text-violet-600 dark:text-violet-400"
+                    changeColor="text-green-600 dark:text-green-400"
+                />
+
+                <TeamStats
+                    title="Active Employees"
+                    value={38}
+                    change="↑ 8% vs last month"
+                    icon={Briefcase}
+                    iconBg="bg-blue-100 dark:bg-blue-500/15"
+                    iconColor="text-blue-600 dark:text-blue-400"
+                    changeColor="text-green-600 dark:text-green-400"
+                />
+
+                <TeamStats
+                    title="New This Month"
+                    value={5}
+                    change="↑ 2 vs last month"
+                    icon={UserPlus}
+                    iconBg="bg-green-100 dark:bg-green-500/15"
+                    iconColor="text-green-600 dark:text-green-400"
+                    changeColor="text-green-600 dark:text-green-400"
+                />
+
+                <TeamStats
+                    title="On Leave"
+                    value={3}
+                    change="↓ 1 vs last month"
+                    icon={UserX}
+                    iconBg="bg-orange-100 dark:bg-orange-500/15"
+                    iconColor="text-orange-600 dark:text-orange-400"
+                    changeColor="text-red-500 dark:text-red-400"
+                />
+
+            </div>
 
             {/* Filters */}
             <TeamFilters />
