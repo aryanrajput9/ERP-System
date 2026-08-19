@@ -27,6 +27,10 @@ const adminSideApi = {
     getMessage: async (id) => {
         const resp = await useAxiosInstence.get(`/message/${id}`)
         return resp.data.data
+    },
+    setDepartment: async (id, department) => {
+        const resp = await useAxiosInstence.patch(`/employee/department/${id}`, { department });
+        return resp
     }
 }
 

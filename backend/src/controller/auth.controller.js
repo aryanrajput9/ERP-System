@@ -214,5 +214,42 @@ export const authContoller = {
         return res.status(200).json(
             employee.map(sanitizeEmployee)
         )
+    }),
+
+    assignDepartment: asyncHandler(async (req, res) => {
+        const { id } = req.params;
+
+        const { department } = req.body;
+
+
+        // Employee ID check
+        if (!id) {
+            throw new ApiError(400, "Employee id is required");
+        }
+
+        // Department name check
+        if (!department?.trim()) {
+            throw new ApiError(400, "Department name is required");
+        }
+
+        // Employee find by employee ID
+        const employee = await Employee.findById(id);
+
+        if (!employee) {
+            throw new ApiError(404, "Employee not found");
+        }
+
+        // Department name save/assign
+        employee.department = department.trim();
+
+        await employee.save();
+
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                employee,
+                "Department assigned successfully"
+            )
+        );
     })
 };

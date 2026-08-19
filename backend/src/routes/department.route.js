@@ -69,7 +69,8 @@ const departmentRoute = express.Router();
 
 // Department CRUD routes currently use the middleware boundary defined by each handler registration.
 
-departmentRoute.post("/create-department", departmentController.createDepartmentController)
+departmentRoute.post("/create-department", departmentController.createDepartmentController);
+
 departmentRoute.get("/get-all-department", departmentController.getAllDepartmentsController)
 departmentRoute.get("/get-departmentby/:id", departmentController.getDepartmentByIdController)
 departmentRoute.patch("/edit-department/:id", departmentController.editDepartmentByIdController)

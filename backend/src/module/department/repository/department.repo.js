@@ -19,8 +19,8 @@ export const departmentRepo = {
 
     editDepartmentById: async ({ id, ...updateData }) => {
         // Apply only supplied fields, validate them, and return the updated department.
-        return await Department.findByIdAndUpdate(
-            id,
+        return await Department.findOneAndUpdate(
+            { id },
             { $set: updateData },
             {
                 new: true,

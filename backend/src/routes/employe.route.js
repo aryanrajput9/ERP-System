@@ -62,7 +62,9 @@ employeeRouter.post("/login-employee", loginValidator, authContoller.login);
 employeeRouter.get("/get-cuurent-employe", authMiddleware, authContoller.getMe);
 employeeRouter.get("/refresh-token", authContoller.reFreshTokens);
 
-employeeRouter.get("/get-all-employe", authContoller.getAllEmploye)
+employeeRouter.get("/get-all-employe", authContoller.getAllEmploye);
+
+employeeRouter.patch("/department/:id", authContoller.assignDepartment)
 
 
 export default employeeRouter

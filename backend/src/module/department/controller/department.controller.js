@@ -86,6 +86,7 @@ export const departmentController = {
         const { id } = req.params;
         const data = { id, ...req.body };
 
+        console.log(data)
         const department = await departmentServices.editDepartmentByIdServices(data);
 
         return res.status(HTTP_STATUS.OK).json(

@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from "../../../constant/http-statuscode.js";
+import { ApiError } from "../../../utils/api-error.js";
 import { departmentRepo } from "../repository/department.repo.js";
 
 

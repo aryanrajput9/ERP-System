@@ -64,7 +64,7 @@ const employeeSchema = new Schema(
         },
 
         department: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: "department",
             default: null
         },
@@ -129,7 +129,7 @@ const employeeSchema = new Schema(
 employeeSchema.pre("save", async function () {
     // Hash only new or changed passwords; existing hashes must not be hashed again on updates.
     if (!this.isModified("password")) {
-        return next();
+        return;
     }
 
     this.password = await bcryptjs.hash(
