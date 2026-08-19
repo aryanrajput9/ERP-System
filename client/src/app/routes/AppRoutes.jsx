@@ -21,6 +21,7 @@ import AttendencePage from "../../feature/dashboard/admin/ui/pages/AdminAttenden
 import AdminLeavePage from "../../feature/dashboard/admin/ui/pages/AdminLeavePage";
 import AdminAttendencePage from "../../feature/dashboard/admin/ui/pages/AdminAttendencePage";
 import ChatPage from "../../feature/dashboard/admin/ui/pages/ChatPage";
+import ChatsPage from "../../feature/dashboard/employee/ui/pages/ChatsPage";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
                             { path: "leaves", element: <LeavePage /> },
                             { path: "salary", element: <SalaryPage /> },
                             { path: "profile", element: <ProfilePage /> },
+                            { path: "chat", element: <ChatsPage /> }
                         ],
                     },
                 ],

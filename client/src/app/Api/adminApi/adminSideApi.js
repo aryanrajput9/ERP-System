@@ -19,6 +19,14 @@ const adminSideApi = {
     getAllTask: async () => {
         const resp = await useAxiosInstence.get("/task/get-all-task");
         return resp.data.data
+    },
+    createChat: async (input) => {
+        const resp = await useAxiosInstence.post("/message/chat", input);
+        return resp
+    },
+    getMessage: async (id) => {
+        const resp = await useAxiosInstence.get(`/message/${id}`)
+        return resp.data.data
     }
 }
 

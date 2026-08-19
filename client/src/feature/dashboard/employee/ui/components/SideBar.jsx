@@ -10,6 +10,7 @@ import {
     CheckSquare,
     CalendarCheck,
     MessageCircle,
+    ChartArea,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -41,6 +42,11 @@ const menus = [
         icon: User,
         path: "/dashboard/profile",
     },
+    {
+        title: "Chat",
+        icon: ChartArea,
+        path: "/dashboard/chat"
+    }
 ];
 const adminMenu = [
     {

@@ -5,6 +5,7 @@ import designationRoute from './designation.route.js';
 import leaveRoute from './leave.route.js';
 import employeeRouter from './employe.route.js';
 import taskRoute from './task.route.js';
+import messageRoute from './message.route.js';
 
 
 
@@ -15,6 +16,8 @@ routes.use("/department", departmentRoute);
 routes.use("/designation", designationRoute);
 routes.use("/attendence", attendanceRoute);
 routes.use("/leave", leaveRoute);
-routes.use("/task", taskRoute)
+routes.use("/task", taskRoute);
+
+routes.use("/message", messageRoute)
 
 export default routes
