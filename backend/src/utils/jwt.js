@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto'
 
 
 export const jwtToken = {
+    // Access tokens are short-lived and sent with protected API requests.
     generateAccessToken(payload) {
         return jwt.sign(payload, env.accessToken, {
             expiresIn: env.accessTokenExpires,
@@ -16,6 +17,7 @@ export const jwtToken = {
             expiresIn: env.refreshTokenExpires,
         });
     },
+    // Prefix employee IDs so their business role is visible without exposing credentials.
     createEmployeId() {
         return `EMP${randomUUID()}`
     },

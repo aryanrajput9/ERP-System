@@ -6,6 +6,7 @@ import { designationServices } from "../services/designation.services.js";
 
 
 export const sanitizeDesignation = (designation) => ({
+    // Return the public designation shape rather than exposing the full Mongoose document.
     id: designation._id,
     title: designation.title,
     code: designation.code,
@@ -19,6 +20,7 @@ export const designationController = {
 
     createDesignationController: asyncHandler(async (req, res) => {
 
+        // Map editable request fields to the service, then format the created designation.
         const {
             title,
             code,
@@ -46,6 +48,7 @@ export const designationController = {
 
     getAllDesignationController: asyncHandler(async (_req, res) => {
 
+        // Sanitize every designation in the collection before returning the list.
         const designations = await designationServices.getAllDesignationServices();
 
         return res.status(HTTP_STATUS.OK).json(
@@ -74,6 +77,7 @@ export const designationController = {
 
     editDesignationByIdController: asyncHandler(async (req, res) => {
 
+        // Pass the route ID separately so the repository can update only body fields.
         const { id } = req.params;
         const data = { ...req.body };
 

@@ -5,6 +5,7 @@ import { departmentRepo } from "../repository/department.repo.js";
 export const departmentServices = {
 
     createDepartmentServices: async (input) => {
+        // Keep persistence in the repository while this layer coordinates department business operations.
 
         const department = await departmentRepo.createDepartment(input);
 
@@ -18,6 +19,7 @@ export const departmentServices = {
 
     getDepartmentByIdServices: async (id) => {
 
+        // Reject missing IDs and convert an empty database result into a client-facing not-found error.
         if (!id) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -39,6 +41,7 @@ export const departmentServices = {
 
     editDepartmentByIdServices: async (data) => {
 
+        // Updates require an identifier; the repository returns the newly updated document.
         if (!data.id) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -60,6 +63,7 @@ export const departmentServices = {
 
     deleteDepartmentByIdServices: async (id) => {
 
+        // Deletion follows the same validation and not-found contract as reads and updates.
         if (!id) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,

@@ -4,10 +4,12 @@ import Department from "../model/department.js";
 
 export const departmentRepo = {
     createDepartment: async (input) => {
+        // Insert a department document using Mongoose schema validation.
         return await Department.create(input);
     },
 
     findAllDepartment: async () => {
+        // lean() returns plain objects for read-only list responses without Mongoose document overhead.
         return await Department.find().lean();
     },
 
@@ -16,6 +18,7 @@ export const departmentRepo = {
     },
 
     editDepartmentById: async ({ id, ...updateData }) => {
+        // Apply only supplied fields, validate them, and return the updated department.
         return await Department.findByIdAndUpdate(
             id,
             { $set: updateData },
@@ -27,6 +30,7 @@ export const departmentRepo = {
     },
 
     deleteDepartmentById: async (id) => {
+        // Remove the department by its MongoDB identifier and return the deleted document.
         return await Department.findByIdAndDelete(id);
     }
 };

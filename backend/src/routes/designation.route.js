@@ -64,6 +64,7 @@ import { designationController } from '../module/designation/controller/designat
 
 const designationRoute = Router();
 
+// These routes expose designation CRUD operations under the /api/designation module prefix.
 
 designationRoute.post(
     "/",

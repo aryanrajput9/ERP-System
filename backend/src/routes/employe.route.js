@@ -56,6 +56,7 @@ import authMiddleware from '../middleware/auth.middileware.js';
 
 const employeeRouter = Router();
 
+// Registration, login, and refresh are public; the current-employee endpoint requires a bearer token.
 employeeRouter.post("/register-employee", registerValidator, authContoller.sigup);
 employeeRouter.post("/login-employee", loginValidator, authContoller.login);
 employeeRouter.get("/get-cuurent-employe", authMiddleware, authContoller.getMe);

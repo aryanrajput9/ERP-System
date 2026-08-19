@@ -5,11 +5,13 @@ import { ApiError } from "../../../utils/api-error.js";
 export const attendanceServices = {
 
     createAttendanceServices: async (input) => {
+        // The controller supplies the authenticated employee and check-in timestamp; the repository persists it.
         return attendanceRepository.createAttendance(input);
     },
 
     updateCheckInServices: async (employeeId, date, data) => {
 
+        // Validate identity before allowing a checkout mutation for today's record.
         if (!employeeId) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -35,6 +37,7 @@ export const attendanceServices = {
 
     getFindAttendance: async (employeeId) => {
 
+        // A missing record is reported distinctly so callers know the employee has not checked in today.
         if (!employeeId) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -56,6 +59,7 @@ export const attendanceServices = {
 
     getAttendanceHistoryServices: async (employeeId) => {
 
+        // History is always scoped to the authenticated employee ID passed by the controller.
         if (!employeeId) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -68,6 +72,7 @@ export const attendanceServices = {
 
     findAttendanceById: async (employeeId) => {
 
+        // Reject empty lookups before querying MongoDB and distinguish an empty result from bad input.
         if (!employeeId) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,

@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 const attendanceSchema = new Schema(
     {
         employee: {
+            // Store a reference to the employee so attendance remains linked without duplicating the profile.
             type: Schema.Types.ObjectId,
             ref: "Employee",
             required: true,

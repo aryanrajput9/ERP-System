@@ -9,6 +9,7 @@ import leaveServices from "../services/leave.service.js";
 
 const leaveEmployeeController = {
     createLeave: asyncHandler(async (req, res) => {
+        // The authenticated employee becomes the owner of the request; clients cannot choose another employee.
         const input = {
             ...req.body,
             employee: req.employee._id,
@@ -22,6 +23,7 @@ const leaveEmployeeController = {
     }),
 
     getMyLeaves: asyncHandler(async (req, res) => {
+        // Scope self-service history to the identity established by authMiddleware.
         const leaves = await leaveServices.getLeavesByEmployeeId(req.employee._id);
 
         return res.status(200).json(
@@ -42,6 +44,7 @@ const leaveEmployeeController = {
     approveLeaveById: asyncHandler(async (req, res) => {
         const { id } = req.params;
 
+        // Record the authenticated approver identity for the service/repository update.
         console.log(req.employee)
         const leave = await leaveServices.approveLeaveById(
             id,
@@ -55,6 +58,7 @@ const leaveEmployeeController = {
 
     rejectLeaveById: asyncHandler(async (req, res) => {
         const { id } = req.params;
+        // The service requires a reason so rejected requests retain an audit explanation.
         const { reason } = req.body;
 
         const leave = await leaveServices.rejectLeave(id, reason);
@@ -65,6 +69,7 @@ const leaveEmployeeController = {
     }),
     getAllLeave: asyncHandler(async (_req, res) => {
 
+        // This returns the populated leave list used by administrative views.
         const allleave = await leaveRepository.getAllLeave();
 
         return res.status(HTTP_STATUS.OK).json(

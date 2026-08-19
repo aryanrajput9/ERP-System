@@ -8,6 +8,7 @@ import { designationRepository } from "../repository/designation.repo.js";
 export const designationServices = {
 
     createDesignationServices: async (input) => {
+        // Delegate persistence while keeping validation and not-found decisions in the service layer.
 
         const designation = await designationRepository.createDesignation(input);
 
@@ -21,6 +22,7 @@ export const designationServices = {
 
     getDesignationByIdServices: async (id) => {
 
+        // Missing IDs are bad requests; a valid ID with no document is a not-found result.
         if (!id) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -42,6 +44,7 @@ export const designationServices = {
 
     editDesignationByIdServices: async (id, data) => {
 
+        // Updates require a route ID and return the repository's updated document.
         if (!id) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,
@@ -66,6 +69,7 @@ export const designationServices = {
 
     deleteDesignationByIdServices: async (id) => {
 
+        // Delete only after validating the identifier and confirming a document was found.
         if (!id) {
             throw new ApiError(
                 HTTP_STATUS.BAD_REQUEST,

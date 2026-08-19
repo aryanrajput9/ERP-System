@@ -36,6 +36,7 @@ import messageController from '../module/chat/controller/message.controller.js';
 
 const messageRoute = Router();
 
+// Both operations require authentication so sender identity and conversation access come from the verified token.
 
 messageRoute.post("/chat", authMiddleware, messageController.createMessage)
 

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import swaggerJsdoc from "swagger-jsdoc";
 
+// Keep the OpenAPI description beside the existing route modules; swagger-jsdoc reads their comments at startup.
 const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
@@ -19,6 +20,7 @@ const swaggerOptions = {
         ],
 
         components: {
+            // Reusable schemas, responses, and bearer security keep route documentation consistent.
             securitySchemes: {
                 bearerAuth: {
                     type: "http",

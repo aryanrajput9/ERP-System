@@ -6,6 +6,7 @@ import { randomUUID } from "crypto";
 
 const employeeSchema = new Schema(
     {
+        // Department and designation are stored as references so their current details remain normalized.
         employeeId: {
             type: String,
             unique: true,
@@ -42,6 +43,7 @@ const employeeSchema = new Schema(
         password: {
             type: String,
             required: true,
+            // Password hashes are excluded from normal queries and never returned by default.
             select: false,
         },
 
@@ -125,6 +127,7 @@ const employeeSchema = new Schema(
 );
 
 employeeSchema.pre("save", async function () {
+    // Hash only new or changed passwords; existing hashes must not be hashed again on updates.
     if (!this.isModified("password")) {
         return next();
     }
@@ -139,6 +142,7 @@ employeeSchema.pre("save", async function () {
 
 
 employeeSchema.methods.comparepassword = function (password) {
+    // Compare a login secret with the stored hash without exposing the original password.
     return bcryptjs.compare(password, this.password)
 }
 

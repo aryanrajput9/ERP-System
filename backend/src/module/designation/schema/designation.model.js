@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const designationSchema = new mongoose.Schema(
     {
+        // Titles and uppercase codes are unique business identifiers for employee roles.
         title: {
             type: String,
             required: true,

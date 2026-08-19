@@ -9,6 +9,7 @@ import { jwtToken } from "../utils/jwt.js";
 
 
 function sanitizeEmployee(employee, accessToken = "") {
+    // Keep authentication responses safe by exposing profile data but never the password hash.
     return {
         id: employee._id,
         name: `${employee.firstName} ${employee.lastName}`,
@@ -27,6 +28,7 @@ function sanitizeEmployee(employee, accessToken = "") {
 };
 
 export const cookiesConst = (maxAge) => ({
+    // Refresh tokens live in an HTTP-only cookie so browser scripts cannot read them directly.
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
@@ -61,6 +63,7 @@ export const authContoller = {
         } = req.body;
 
         // ✅ COMMIT: Generate employeeId in one place
+        // Generate a role-prefixed business ID while MongoDB still owns the database identity.
         let employeeId;
 
         if (role === "Manager") {
@@ -96,6 +99,7 @@ export const authContoller = {
             await authServices.signup(input);
 
         // ✅ COMMIT: Save refresh token in cookie
+        // Keep the long-lived refresh token in the cookie; return the short-lived access token in the response.
         res.cookie(
             "refreshToken",
             refreshToken,
@@ -123,6 +127,7 @@ export const authContoller = {
             await authServices.login(email, password);
 
         // ✅ COMMIT: Save refresh token after successful login
+        // A successful service response provides both tokens; only the refresh token is persisted in a cookie.
         res.cookie(
             "refreshToken",
             refreshToken,
@@ -145,6 +150,7 @@ export const authContoller = {
     getMe: asyncHandler(async (req, res) => {
 
         // ✅ COMMIT: Employee already available from middleware
+        // Authentication middleware has already verified the token and attached this employee.
         const employee = req.employee;
 
         return res.status(HTTP_STATUS.OK).json(
@@ -164,6 +170,7 @@ export const authContoller = {
         const refreshToken = req.cookies.refreshToken;
 
         // ✅ COMMIT: Throw ApiError instead of ApiResponse
+        // A missing or invalid cookie cannot be used to mint a new access token.
         if (!refreshToken) {
             throw new ApiError(
                 HTTP_STATUS.UNAUTHORIZED,
@@ -181,6 +188,7 @@ export const authContoller = {
         }
 
         // ✅ COMMIT: Generate new access token
+        // Refreshing rotates only the short-lived access token; the refresh cookie remains valid.
         const accessToken = jwtToken.generateAccessToken({
             userId: decode.userId,
         });
@@ -198,6 +206,7 @@ export const authContoller = {
 
     getAllEmploye: asyncHandler(async (_req, res) => {
 
+        // This endpoint intentionally selects employees by role for the employee directory response.
         const employee = await Employee.find(
             { role: "Employee" }
         );

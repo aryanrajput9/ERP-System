@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 let io;
 
 export const initSocket = (server) => {
+    // Attach Socket.IO to the same HTTP server used by Express for real-time chat events.
     io = new Server(server, {
         cors: {
             origin: "http://localhost:5173",
@@ -16,6 +17,7 @@ export const initSocket = (server) => {
 
         socket.on("join-room", (employeeId) => {
 
+            // Employee IDs act as private rooms so messages can target one recipient.
             socket.join(employeeId.toString());
 
 
@@ -37,6 +39,7 @@ export const initSocket = (server) => {
 
 export const getIO = () => {
     if (!io) {
+        // Prevent controllers from emitting events before server initialization has completed.
         throw new Error("Socket.io is not initialized");
     }
 

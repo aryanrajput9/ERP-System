@@ -9,6 +9,7 @@ export const attendanceController = {
 
     createAttendance: asyncHandler(async (req, res) => {
 
+        // Normalize the date to midnight so the attendance record represents the current calendar day.
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -92,6 +93,7 @@ export const attendanceController = {
     getAllEmployeeAttendence: asyncHandler(async (req, res) => {
 
 
+        // Build a dashboard view by joining each employee to only today's attendance records.
         const today = new Date();
 
         today.setHours(0, 0, 0, 0);
@@ -100,10 +102,12 @@ export const attendanceController = {
         tomorrow.setDate(today.getDate() + 1)
 
         const allattendence = await Employee.aggregate([
+            // The dashboard is limited to employees rather than managers or HR users.
             {
                 $match: { role: "Employee" }
             },
             {
+                // Match attendance through the employee ObjectId and the normalized day range.
                 $lookup: {
                     from: "attendances",
                     let: { empId: "$_id" },

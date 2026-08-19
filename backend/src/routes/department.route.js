@@ -67,6 +67,7 @@ import { departmentController } from '../module/department/controller/department
 
 const departmentRoute = express.Router();
 
+// Department CRUD routes currently use the middleware boundary defined by each handler registration.
 
 departmentRoute.post("/create-department", departmentController.createDepartmentController)
 departmentRoute.get("/get-all-department", departmentController.getAllDepartmentsController)

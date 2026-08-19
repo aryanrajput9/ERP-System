@@ -1,6 +1,7 @@
 import { body } from 'express-validator'
 
 
+// Registration validation protects identity, contact, role, and password fields before service logic runs.
 export const registerValidator = [
     body("firstName")
         .trim()
@@ -91,6 +92,7 @@ export const registerValidator = [
 ];
 
 export const loginValidator = [
+    // Login accepts only a normalized email and a password meeting the minimum length requirement.
     body("email")
         .trim()
         .notEmpty()

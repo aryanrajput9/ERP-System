@@ -67,6 +67,7 @@ import authMiddleware from '../middleware/auth.middileware.js';
 
 const attendanceRoute = Router();
 
+// Self-service attendance routes use authMiddleware; the employee-wide queries remain exposed as currently wired.
 
 attendanceRoute.post("/", authMiddleware, attendanceController.createAttendance);
 

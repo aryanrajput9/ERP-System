@@ -7,6 +7,7 @@ import taskServices from "../services/task.service.js";
 
 
 const taskSanitizer = (data = {}) => {
+    // Normalize optional task fields so clients receive stable enum, date, number, and tag values.
     return {
         title: data.title.trim() || "",
 
@@ -49,6 +50,7 @@ const taskController = {
 
     createTask: asyncHandler(async (req, res) => {
 
+        // Preserve the authenticated creator identity instead of trusting a client-supplied creator.
         const createdId = req.employee.employeeId;
 
         const input = {
@@ -71,6 +73,7 @@ const taskController = {
 
     getAllTask: asyncHandler(async (_req, res) => {
 
+        // Repository results are normalized consistently before being wrapped in the success response.
         const allTask = await taskServices.getALLTask();
 
         return res.status(HTTP_STATUS.OK).json(

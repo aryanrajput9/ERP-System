@@ -81,6 +81,7 @@ import authMiddleware from '../middleware/auth.middileware.js';
 
 const leaveRoute = Router();
 
+// Leave creation, personal history, and approval/rejection receive the authenticated employee identity.
 
 leaveRoute.post("/take-leave", authMiddleware, leaveEmployeeController.createLeave);
 

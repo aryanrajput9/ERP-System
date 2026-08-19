@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const messageSchema = new mongoose.Schema(
     {
         senderId: {
+            // Both sides of a conversation reference employee documents rather than copying profiles.
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,

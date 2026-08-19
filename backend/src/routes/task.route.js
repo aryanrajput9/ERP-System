@@ -29,6 +29,7 @@ import authMiddleware from '../middleware/auth.middileware.js';
 
 const taskRoute = Router();
 
+// Task creation uses the authenticated creator; listing follows the route's existing public middleware boundary.
 
 taskRoute.post("/create-task", authMiddleware, taskController.createTask);
 taskRoute.get("/get-all-task", taskController.getAllTask)

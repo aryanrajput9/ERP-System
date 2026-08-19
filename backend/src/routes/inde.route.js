@@ -11,6 +11,7 @@ import messageRoute from './message.route.js';
 
 const routes = Router();
 
+// Prefix every feature router with /api; each module owns its endpoint names and middleware.
 routes.use("/employee", employeeRouter);
 routes.use("/department", departmentRoute);
 routes.use("/designation", designationRoute);

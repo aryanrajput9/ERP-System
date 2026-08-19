@@ -4,6 +4,7 @@ import { asyncHandler } from "../../../utils/async-hanlder.js";
 import { departmentServices } from "../services/department.services.js";
 
 function sanitizeDepartment(department) {
+    // Shape CRUD responses around the department fields exposed by the API.
     return {
         _id: department._id,
         name: department.name,
@@ -21,6 +22,7 @@ export const departmentController = {
 
     createDepartmentController: asyncHandler(async (req, res) => {
 
+        // Translate the request body into the service input, then wrap the created model in ApiResponse.
         const {
             name,
             code,
@@ -50,6 +52,7 @@ export const departmentController = {
 
     getAllDepartmentsController: asyncHandler(async (_req, res) => {
 
+        // Fetch all departments and sanitize each document before returning it to clients.
         const departments = await departmentServices.getAllDepartmentServices();
 
         return res.status(HTTP_STATUS.OK).json(
@@ -63,6 +66,7 @@ export const departmentController = {
 
     getDepartmentByIdController: asyncHandler(async (req, res) => {
 
+        // The service owns ID validation and not-found handling; the controller formats the successful result.
         const { id } = req.params;
 
         const department = await departmentServices.getDepartmentByIdServices(id);
@@ -78,6 +82,7 @@ export const departmentController = {
 
     editDepartmentByIdController: asyncHandler(async (req, res) => {
 
+        // Combine the route ID with editable body fields for the service layer.
         const { id } = req.params;
         const data = { id, ...req.body };
 

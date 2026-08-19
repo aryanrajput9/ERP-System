@@ -3,11 +3,13 @@ import { Attendance } from "../schema/attendance.schema.js";
 export const attendanceRepository = {
 
     createAttendance: async (input) => {
+        // Create the attendance document linked to an Employee ObjectId.
         return Attendance.create(input);
     },
 
     findTodayAttendance: async (employeeId) => {
 
+        // Bound the query to the current day so records from other dates cannot be checked out accidentally.
         const start = new Date();
         start.setHours(0, 0, 0, 0);
 
@@ -25,6 +27,7 @@ export const attendanceRepository = {
 
     updateTodayAttendance: async (employeeId) => {
 
+        // Reuse the date-bounded lookup, then calculate hours from the stored check-in and new checkout times.
         const attendance = await attendanceRepository.findTodayAttendance(employeeId);
 
         if (!attendance) {
@@ -45,6 +48,7 @@ export const attendanceRepository = {
 
     getAttendanceHistory: async (employeeId) => {
 
+        // Return the employee's records newest first for history views.
         return Attendance.find({
             employee: employeeId,
         }).sort({ date: -1 });
@@ -53,6 +57,7 @@ export const attendanceRepository = {
 
     findAttendanceByEmployeeId: async (employeeId) => {
 
+        // This query is used for employee-specific attendance history and is sorted chronologically backward.
         return Attendance.find({
             employee: employeeId
         }).sort({ date: -1 });

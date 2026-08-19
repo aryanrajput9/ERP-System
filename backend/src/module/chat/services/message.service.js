@@ -7,6 +7,7 @@ const messageServices = {
 
     createMessage: async (senderId, receiverId, message) => {
 
+        // Both participants are required before a private conversation can be persisted.
         if (!senderId) throw new ApiError(HTTP_STATUS.BAD_REQUEST, "SenderId is required");
 
         if (!receiverId) throw new ApiError(HTTP_STATUS.BAD_REQUEST, "ReciverId is required");

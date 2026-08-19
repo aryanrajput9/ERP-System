@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const leaveSchema = new mongoose.Schema(
     {
         employee: {
+            // Every leave belongs to one employee; approvedBy records the separate approver relationship.
             type: mongoose.Schema.Types.ObjectId,
             ref: "Employee",
             required: true,

@@ -20,6 +20,7 @@ export const authServices = {
     signup: async (data) => {
 
         // ✅ COMMIT: Check if email already exists
+        // Prevent duplicate accounts before attempting the unique email insert.
         const isExist = await authRepo.findByEmail(data.email);
 
         if (isExist) {
@@ -30,9 +31,11 @@ export const authServices = {
         }
 
         // ✅ COMMIT: Create employee
+        // Repository creation triggers the employee model's password hashing hook.
         const employee = await authRepo.create(data);
 
         // ✅ COMMIT: Generate JWT using Mongo _id
+        // Tokens carry the Mongo ID used by authentication middleware for later employee lookup.
         const accessToken = jwtToken.generateAccessToken({
             userId: employee._id,
         });
@@ -54,6 +57,7 @@ export const authServices = {
     login: async (email, password) => {
 
         // ✅ COMMIT: Find employee by email
+        // The repository explicitly includes the password hash for this comparison only.
         const employee = await authRepo.findByEmail(email);
 
         if (!employee) {
@@ -64,6 +68,7 @@ export const authServices = {
         }
 
         // ✅ COMMIT: Verify password before login
+        // Reject the request before issuing tokens when the supplied secret does not match the hash.
         const isMatch = await employee.comparepassword(password);
 
         if (!isMatch) {
@@ -74,6 +79,7 @@ export const authServices = {
         }
 
         // ✅ COMMIT: Generate JWT using Mongo _id
+        // Use the same database identity in both access and refresh token payloads.
         const accessToken = jwtToken.generateAccessToken({
             userId: employee._id,
         });

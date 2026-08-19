@@ -12,6 +12,7 @@ const leaveServices = {
         const start = new Date(input.startDate);
         const end = new Date(input.endDate);
 
+        // Reject reversed ranges, then count both boundary dates as leave days.
         if (start > end) {
             throw new ApiError(400, "Start date cannot be after end date");
         }
@@ -26,6 +27,7 @@ const leaveServices = {
     },
 
     // employee ki sabhi leaves
+    // Return only the leave records owned by the requested employee.
     getLeavesByEmployeeId: async (employeeId) => {
 
         if (!employeeId) {
@@ -36,6 +38,7 @@ const leaveServices = {
     },
 
     // single leave detail
+    // Fetch one leave and convert a missing document into a 404 service error.
     getLeaveById: async (id) => {
 
         if (!id) {
@@ -52,6 +55,7 @@ const leaveServices = {
     },
 
     // approve
+    // Mark the request approved and retain the employee who approved it.
     approveLeaveById: async (id, approvedBy) => {
 
         if (!id) {
@@ -68,6 +72,7 @@ const leaveServices = {
     },
 
     // reject
+    // Require an explanation before changing the request to Rejected.
     rejectLeave: async (id, reason) => {
 
         if (!id) {

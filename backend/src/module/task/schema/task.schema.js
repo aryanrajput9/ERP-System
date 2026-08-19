@@ -16,6 +16,7 @@ const taskSchema = new mongoose.Schema(
         },
 
         // Kis employee ko assign hua
+        // Store the employee responsible for completing the task as an ObjectId reference.
         assignedTo: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Employee",
@@ -23,6 +24,7 @@ const taskSchema = new mongoose.Schema(
         },
 
         // Kisne task create kiya (Admin/Manager)
+        // Store the creator identity used by the current task workflow.
         createdBy: {
             type: String,
             ref: "Employee",

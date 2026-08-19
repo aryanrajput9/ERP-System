@@ -1,6 +1,7 @@
 
 
 export const HTTP_STATUS = {
+    // Keep status meanings centralized so controllers and services use the same vocabulary.
     // Success
     OK: 200,
     CREATED: 201,
