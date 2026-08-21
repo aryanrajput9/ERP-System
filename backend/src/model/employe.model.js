@@ -74,6 +74,11 @@ const employeeSchema = new Schema(
             ref: "designation",
             default: null
         },
+        reportingManager: {
+            type: Schema.Types.ObjectId,
+            ref: "Employee",
+            default: null
+        },
 
         salary: {
             type: Number,

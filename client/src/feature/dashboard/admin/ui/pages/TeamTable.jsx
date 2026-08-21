@@ -4,6 +4,7 @@ import EmployeeActions from "../components/EmployeeActions";
 import { useState } from "react";
 import useAllEmployeeData from "../../hooks/useAllEmployeData";
 import { setAllEmploye } from "../../state/adminSlice";
+import EditEmployee from "../components/EditEmployee";
 
 export default function TeamTable() {
     const { allEmploye } = useSelector((state) => state.admin);
@@ -13,6 +14,9 @@ export default function TeamTable() {
     // Department modal
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [department, setDepartment] = useState("");
+    const [editEmployee, setEditEmployee] = useState(null);
+
+
 
     const dispatch = useDispatch()
 
@@ -195,6 +199,10 @@ export default function TeamTable() {
                                         onAssignDepartment={
                                             handleAssignDepartment
                                         }
+                                        onEditEmployee={(employee) => {
+                                            setOpenEmployee(null);
+                                            setEditEmployee(employee);
+                                        }}
                                     />
                                 )}
                             </div>
@@ -202,6 +210,7 @@ export default function TeamTable() {
                     ))}
                 </div>
             </div>
+
 
             {/* ASSIGN DEPARTMENT MODAL */}
             {selectedEmployee && (
@@ -311,6 +320,14 @@ export default function TeamTable() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {editEmployee && (
+                <EditEmployee
+                    employee={editEmployee}
+                    onClose={() => setEditEmployee(null)}
+                    selectedEmployee={selectedEmployee}
+                />
             )}
         </>
     );

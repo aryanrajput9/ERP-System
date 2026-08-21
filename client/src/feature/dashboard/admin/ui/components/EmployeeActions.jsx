@@ -7,6 +7,7 @@ export default function EmployeeActions({
     employee,
     onClose,
     onAssignDepartment,
+    onEditEmployee,
 }) {
     const menuItem =
         "flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-xs font-medium transition-colors";
@@ -35,7 +36,7 @@ export default function EmployeeActions({
                 type="button"
                 onClick={() => {
                     onClose();
-                    console.log("Edit:", employee);
+                    onEditEmployee(employee);
                 }}
                 className={`${menuItem} hover:bg-slate-50 dark:hover:bg-slate-800`}
                 style={{

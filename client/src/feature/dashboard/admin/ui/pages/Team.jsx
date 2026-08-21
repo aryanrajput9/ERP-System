@@ -1,108 +1,287 @@
-import React from "react";
-import TeamStats from "../components/TeamStats";
-import TeamFilters from "../components/TeamFilter";
-import TeamTable from "./TeamTable";
-import {
-    Briefcase,
-    Plus,
-    UserPlus,
-    Users,
-    UserX,
-} from "lucide-react";
+import { Search, ChevronRight, Users } from "lucide-react";
+import { useMemo, useState } from "react";
 
+export default function MyTeam({ team = [] }) {
+    const [search, setSearch] = useState("");
 
+    const filteredTeam = useMemo(() => {
+        const value = search.trim().toLowerCase();
 
-function Team() {
+        if (!value) return team;
+
+        return team.filter((employee) => {
+            const name = employee.name?.toLowerCase() || "";
+            const email = employee.email?.toLowerCase() || "";
+            const department =
+                employee.department?.toLowerCase() || "";
+
+            return (
+                name.includes(value) ||
+                email.includes(value) ||
+                department.includes(value)
+            );
+        });
+    }, [team, search]);
+
     return (
-        <div className="flex flex-col gap-6">
-            {/* Top Action */}
+        <div className="space-y-6">
+
+            {/* Header */}
             <div className="flex items-center justify-between">
+
                 <div>
                     <h1
-                        className="text-2xl font-bold"
-                        style={{ color: "var(--text-primary)" }}
+                        className="text-2xl font-semibold"
+                        style={{
+                            color: "var(--text-primary)",
+                        }}
                     >
-                        Team Management
+                        My Team
                     </h1>
 
                     <p
-                        className="text-sm"
-                        style={{ color: "var(--text-secondary)" }}
+                        className="mt-1 text-sm"
+                        style={{
+                            color: "var(--text-secondary)",
+                        }}
                     >
-                        Manage employees and track team activity.
+                        View and manage your team members
                     </p>
                 </div>
 
-                <button
-                    className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium shadow-sm transition"
+                <div
+                    className="flex items-center gap-2 rounded-xl border px-4 py-2.5"
                     style={{
-                        backgroundColor: "var(--primary)",
-                        color: "var(--text-white)",
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = "0.92";
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.opacity = "1";
+                        backgroundColor: "var(--card)",
+                        borderColor: "var(--border)",
                     }}
                 >
-                    <Plus size={18} />
-                    Add Employee
-                </button>
-            </div>
+                    <Users
+                        size={17}
+                        style={{
+                            color: "var(--text-muted)",
+                        }}
+                    />
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-
-                <TeamStats
-                    title="Total Employees"
-                    value={42}
-                    change="↑ 6% vs last month"
-                    icon={Users}
-                    iconBg="bg-violet-100 dark:bg-violet-500/15"
-                    iconColor="text-violet-600 dark:text-violet-400"
-                    changeColor="text-green-600 dark:text-green-400"
-                />
-
-                <TeamStats
-                    title="Active Employees"
-                    value={38}
-                    change="↑ 8% vs last month"
-                    icon={Briefcase}
-                    iconBg="bg-blue-100 dark:bg-blue-500/15"
-                    iconColor="text-blue-600 dark:text-blue-400"
-                    changeColor="text-green-600 dark:text-green-400"
-                />
-
-                <TeamStats
-                    title="New This Month"
-                    value={5}
-                    change="↑ 2 vs last month"
-                    icon={UserPlus}
-                    iconBg="bg-green-100 dark:bg-green-500/15"
-                    iconColor="text-green-600 dark:text-green-400"
-                    changeColor="text-green-600 dark:text-green-400"
-                />
-
-                <TeamStats
-                    title="On Leave"
-                    value={3}
-                    change="↓ 1 vs last month"
-                    icon={UserX}
-                    iconBg="bg-orange-100 dark:bg-orange-500/15"
-                    iconColor="text-orange-600 dark:text-orange-400"
-                    changeColor="text-red-500 dark:text-red-400"
-                />
+                    <span
+                        className="text-sm font-medium"
+                        style={{
+                            color: "var(--text-primary)",
+                        }}
+                    >
+                        {team.length} Members
+                    </span>
+                </div>
 
             </div>
 
-            {/* Filters */}
-            <TeamFilters />
+            {/* Search */}
+            <div
+                className="rounded-2xl border p-4"
+                style={{
+                    backgroundColor: "var(--card)",
+                    borderColor: "var(--border)",
+                }}
+            >
+                <div className="relative">
 
-            {/* Table */}
-            <TeamTable />
+                    <Search
+                        size={18}
+                        className="absolute left-4 top-1/2 -translate-y-1/2"
+                        style={{
+                            color: "var(--text-muted)",
+                        }}
+                    />
+
+                    <input
+                        type="text"
+                        value={search}
+                        onChange={(e) =>
+                            setSearch(e.target.value)
+                        }
+                        placeholder="Search team member..."
+                        className="w-full rounded-xl border py-3 pl-11 pr-4 text-sm outline-none"
+                        style={{
+                            backgroundColor:
+                                "var(--surface-2)",
+                            borderColor: "var(--border)",
+                            color: "var(--text-primary)",
+                        }}
+                    />
+
+                </div>
+            </div>
+
+            {/* Team Table */}
+            <div
+                className="overflow-hidden rounded-2xl border"
+                style={{
+                    backgroundColor: "var(--card)",
+                    borderColor: "var(--border)",
+                }}
+            >
+
+                {/* Table Header */}
+                <div
+                    className="grid grid-cols-[2fr_1.3fr_1.4fr_1fr_40px] gap-4 border-b px-6 py-4 text-xs font-medium"
+                    style={{
+                        backgroundColor: "var(--surface-2)",
+                        borderColor: "var(--border)",
+                        color: "var(--text-muted)",
+                    }}
+                >
+                    <p>Employee</p>
+                    <p>Department</p>
+                    <p>Designation</p>
+                    <p>Status</p>
+                    <p></p>
+                </div>
+
+                {/* Rows */}
+                {filteredTeam.length > 0 ? (
+                    filteredTeam.map((employee) => (
+                        <div
+                            key={employee._id}
+                            className="grid grid-cols-[2fr_1.3fr_1.4fr_1fr_40px] items-center gap-4 border-b px-6 py-4 transition hover:bg-[var(--hover-bg)]"
+                            style={{
+                                borderColor:
+                                    "var(--border)",
+                            }}
+                        >
+
+                            {/* Employee */}
+                            <div className="flex items-center gap-3">
+
+                                <div
+                                    className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full text-sm font-semibold"
+                                    style={{
+                                        backgroundColor:
+                                            "var(--surface-2)",
+                                        color:
+                                            "var(--text-primary)",
+                                    }}
+                                >
+                                    {employee.profileImage ? (
+                                        <img
+                                            src={
+                                                employee.profileImage
+                                            }
+                                            alt={employee.name}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        employee.name
+                                            ?.charAt(0)
+                                            ?.toUpperCase()
+                                    )}
+                                </div>
+
+                                <div>
+                                    <p
+                                        className="text-sm font-medium"
+                                        style={{
+                                            color:
+                                                "var(--text-primary)",
+                                        }}
+                                    >
+                                        {employee.name}
+                                    </p>
+
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color:
+                                                "var(--text-secondary)",
+                                        }}
+                                    >
+                                        {employee.email}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            {/* Department */}
+                            <p
+                                className="text-sm"
+                                style={{
+                                    color:
+                                        "var(--text-secondary)",
+                                }}
+                            >
+                                {employee.department ||
+                                    "Not Assigned"}
+                            </p>
+
+                            {/* Designation */}
+                            <p
+                                className="text-sm"
+                                style={{
+                                    color:
+                                        "var(--text-secondary)",
+                                }}
+                            >
+                                {employee.designation ||
+                                    "Not Assigned"}
+                            </p>
+
+                            {/* Status */}
+                            <div>
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-500/15 dark:text-green-400">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                                    Active
+                                </span>
+                            </div>
+
+                            {/* Action */}
+                            <button
+                                type="button"
+                                className="flex justify-center rounded-lg p-2 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+                                style={{
+                                    color:
+                                        "var(--text-muted)",
+                                }}
+                            >
+                                <ChevronRight size={18} />
+                            </button>
+
+                        </div>
+                    ))
+                ) : (
+                    <div className="py-16 text-center">
+
+                        <Users
+                            size={35}
+                            className="mx-auto mb-3"
+                            style={{
+                                color: "var(--text-muted)",
+                            }}
+                        />
+
+                        <p
+                            className="text-sm font-medium"
+                            style={{
+                                color:
+                                    "var(--text-primary)",
+                            }}
+                        >
+                            No team members found
+                        </p>
+
+                        <p
+                            className="mt-1 text-xs"
+                            style={{
+                                color:
+                                    "var(--text-secondary)",
+                            }}
+                        >
+                            Employees assigned to you will
+                            appear here.
+                        </p>
+
+                    </div>
+                )}
+
+            </div>
         </div>
     );
 }
-
-export default Team;
