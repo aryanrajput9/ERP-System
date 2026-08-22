@@ -17,11 +17,12 @@ import ProfilePage from "../../feature/dashboard/employee/ui/pages/ProfilePage";
 import HomePage from "../../feature/dashboard/admin/ui/pages/HomePage";
 import Team from "../../feature/dashboard/admin/ui/pages/Team";
 import Task from "../../feature/dashboard/admin/ui/pages/Task";
-import AttendencePage from "../../feature/dashboard/admin/ui/pages/AdminAttendencePage";
 import AdminLeavePage from "../../feature/dashboard/admin/ui/pages/AdminLeavePage";
 import AdminAttendencePage from "../../feature/dashboard/admin/ui/pages/AdminAttendencePage";
 import ChatPage from "../../feature/dashboard/admin/ui/pages/ChatPage";
 import ChatsPage from "../../feature/dashboard/employee/ui/pages/ChatsPage";
+import HrHome from "../../feature/dashboard/admin/ui/pages/Hr/HrHOme";
+import HrLayout from "../layout/HrLayout";
 
 const router = createBrowserRouter([
     {
@@ -97,6 +98,23 @@ const router = createBrowserRouter([
             },
         ],
     },
+    //Admin hr
+    {
+        path: "/hrAdmin",
+        element: <ProtectedRoute />,
+        children: [
+            {
+                element: <HrLayout />,
+                children: [
+                    {
+                        index: true,
+                        path: "",
+                        element: <HrHome />
+                    }
+                ]
+            }
+        ]
+    }
 ]);
 
 export default router;

@@ -11,6 +11,14 @@ import {
     CalendarCheck,
     MessageCircle,
     ChartArea,
+    LogIn,
+    icons,
+    Calculator,
+    Clapperboard,
+    ClipboardCheckIcon,
+    ClipboardClock,
+    ClockPlusIcon,
+    ClipboardCheck,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -81,6 +89,60 @@ const adminMenu = [
     },
 ];
 
+const hrMenu = [
+
+    {
+        title: "DashBoard",
+        icon: LayoutDashboard,
+        path: "/hrAdmin"
+    },
+    {
+        title: "Employees",
+        icon: LogIn,
+        path: "/hrAdmin/epmloyee"
+    },
+    {
+        title: "Attendance",
+        icon: CalendarDays,
+        path: "/hrAdmin/attendance"
+    },
+    {
+        title: "Leave Management",
+        icon: CalendarCheck,
+        path: "/hrAdmin/leave"
+    },
+    {
+        title: "Recruitment",
+        icon: Calculator,
+        path: "/hrAdmin/recruitment"
+    },
+    {
+        title: "Departments",
+        icon: Clapperboard,
+        path: "/hrAdmin/departments"
+    },
+    {
+        title: "Payroll",
+        icon: ClipboardCheck,
+        path: "/hrAdmim/payroll"
+    },
+    {
+        title: "Performance",
+        icon: ClockPlusIcon,
+        path: "/hrAdmin/performance"
+    },
+    {
+        title: "Documents",
+        icon: ClipboardCheckIcon,
+        path: "/hrAdmin/documents"
+    },
+    {
+        title: "Announcements",
+        icon: ClipboardClock,
+        path: "/hrAdmin/announcements"
+    }
+]
+
 function SideBar() {
 
     const { employee } = useSelector((state) => state.employee)
@@ -120,7 +182,7 @@ function SideBar() {
             {/* Navigation */}
 
             <nav className="mt-10 flex-1 space-y-2">
-                {(employee.role === "Employee" ? menus : adminMenu).map((item) => {
+                {(employee.role === "Employee" ? menus : employee.role === "Manager" ? adminMenu : hrMenu).map((item) => {
                     const Icon = item.icon;
 
                     return (

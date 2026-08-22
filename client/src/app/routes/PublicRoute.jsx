@@ -19,6 +19,10 @@ function PublicRoute() {
     }
     if (isAuthenticated && employee?.role === "Manager") {
         return <Navigate to="/admin" replace></Navigate>
+    };
+
+    if (isAuthenticated && employee?.role === "HR") {
+        return <Navigate to="/hrAdmin" replace></Navigate>
     }
     return <Outlet />
 
