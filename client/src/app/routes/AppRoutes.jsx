@@ -21,8 +21,19 @@ import AdminLeavePage from "../../feature/dashboard/admin/ui/pages/AdminLeavePag
 import AdminAttendencePage from "../../feature/dashboard/admin/ui/pages/AdminAttendencePage";
 import ChatPage from "../../feature/dashboard/admin/ui/pages/ChatPage";
 import ChatsPage from "../../feature/dashboard/employee/ui/pages/ChatsPage";
-import HrHome from "../../feature/dashboard/admin/ui/pages/Hr/HrHOme";
 import HrLayout from "../layout/HrLayout";
+import HrHome from "../../feature/dashboard/admin/ui/pages/Hr/HrHome";
+import AllEmploye from "../../feature/dashboard/admin/ui/pages/Hr/AllEmploye";
+import AddEmployee from "../../feature/dashboard/admin/ui/pages/Hr/AddEmployee"
+import EmployeeDirectoryPage from "../../feature/dashboard/admin/ui/pages/Hr/EmployeeDirectoryPage";
+import AllAttendance from "../../feature/dashboard/admin/ui/pages/Hr/AllAttendance";
+import LeaveMangemenet from "../../feature/dashboard/admin/ui/pages/Hr/LeaveMangemenet";
+import Recruitment from "../../feature/dashboard/admin/ui/pages/Hr/Recruitment";
+import Departments from "../../feature/dashboard/admin/ui/pages/Hr/Departments";
+import Performance from '../../feature/dashboard/admin/ui/pages/Hr/Performance'
+import Reports from "../../feature/dashboard/admin/ui/pages/Hr/Reports";
+import Announcements from "../../feature/dashboard/admin/ui/pages/Hr/Announcements";
+
 
 const router = createBrowserRouter([
     {
@@ -100,7 +111,7 @@ const router = createBrowserRouter([
     },
     //Admin hr
     {
-        path: "/hrAdmin",
+        path: "/hradmin",
         element: <ProtectedRoute />,
         children: [
             {
@@ -110,7 +121,49 @@ const router = createBrowserRouter([
                         index: true,
                         path: "",
                         element: <HrHome />
+                    },
+                    {
+                        path: "employees",
+                        element: <AllEmploye />
+                    },
+                    {
+                        path: "employees/add",
+                        element: <AddEmployee />
+                    },
+                    {
+                        path: "employees/directory",
+                        element: <EmployeeDirectoryPage />
+                    },
+                    {
+                        path: "attendance",
+                        element: <AllAttendance />
+
+                    },
+                    {
+                        path: "leave",
+                        element: <LeaveMangemenet />
+                    },
+                    {
+                        path: "recruitment",
+                        element: <Recruitment />
+                    },
+                    {
+                        path: "departments",
+                        element: <Departments />
+                    },
+                    {
+                        path: "performance",
+                        element: <Performance />
+                    },
+                    {
+                        path: "report",
+                        element: <Reports />
+                    },
+                    {
+                        path: "announcements",
+                        element: <Announcements />
                     }
+
                 ]
             }
         ]

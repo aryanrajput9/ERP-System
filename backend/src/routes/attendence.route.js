@@ -79,7 +79,9 @@ attendanceRoute.get("/get-All-attendence", authMiddleware, attendanceController.
 
 attendanceRoute.get("/allattendence/:employeeId", attendanceController.getAttendanceByEmployeeId);
 
-attendanceRoute.get("/all-attendence-allEmploye", attendanceController.getAllEmployeeAttendence)
+attendanceRoute.get("/all-attendence-allEmploye", attendanceController.getAllEmployeeAttendence);
+
+attendanceRoute.get("/allattendence-histoy", attendanceController.getAllEmployeeAttendenceHistory)
 
 
 

@@ -24,7 +24,7 @@ export default function AddTaskForm({ allEmploye = [] }) {
         };
 
 
-        const resp = await taskApiDataHook.createTask(payload);
+        const resp = await taskApiDataHook.createTask(payload)
         reset();
         return resp
 

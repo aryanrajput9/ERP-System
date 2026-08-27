@@ -11,18 +11,19 @@ import {
     CalendarCheck,
     MessageCircle,
     ChartArea,
-    LogIn,
-    icons,
     Calculator,
     Clapperboard,
     ClipboardCheckIcon,
     ClipboardClock,
     ClockPlusIcon,
     ClipboardCheck,
+    UsersRound,
+    ChevronDown,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./profile/ProfileButton";
+import { useState } from "react";
 
 const menus = [
     {
@@ -94,47 +95,58 @@ const hrMenu = [
     {
         title: "DashBoard",
         icon: LayoutDashboard,
-        path: "/hrAdmin"
+        path: "/hradmin"
     },
+
     {
         title: "Employees",
-        icon: LogIn,
-        path: "/hrAdmin/epmloyee"
+        icon: UsersRound,
+        path: "/hradmin/employees",
+        children: [
+            {
+                title: "All Employees",
+                path: "/hradmin/employees",
+            },
+            {
+                title: "Add Employee",
+                path: "/hradmin/employees/add",
+            },
+            {
+                title: "Employee Directory",
+                path: "/hradmin/employees/directory",
+            },
+        ],
     },
     {
         title: "Attendance",
         icon: CalendarDays,
-        path: "/hrAdmin/attendance"
+        path: "/hradmin/attendance"
     },
     {
         title: "Leave Management",
         icon: CalendarCheck,
-        path: "/hrAdmin/leave"
+        path: "/hradmin/leave"
     },
     {
         title: "Recruitment",
         icon: Calculator,
-        path: "/hrAdmin/recruitment"
+        path: "/hradmin/recruitment"
     },
     {
         title: "Departments",
         icon: Clapperboard,
-        path: "/hrAdmin/departments"
+        path: "/hradmin/departments"
     },
-    {
-        title: "Payroll",
-        icon: ClipboardCheck,
-        path: "/hrAdmim/payroll"
-    },
+
     {
         title: "Performance",
         icon: ClockPlusIcon,
-        path: "/hrAdmin/performance"
+        path: "/hradmin/performance"
     },
     {
-        title: "Documents",
+        title: "Reports",
         icon: ClipboardCheckIcon,
-        path: "/hrAdmin/documents"
+        path: "/hrAdmin/report"
     },
     {
         title: "Announcements",
@@ -144,12 +156,20 @@ const hrMenu = [
 ]
 
 function SideBar() {
+    const { employee } = useSelector((state) => state.employee);
 
-    const { employee } = useSelector((state) => state.employee)
+    const [openMenu, setOpenMenu] = useState(null);
+
+    const menu =
+        employee.role === "Employee"
+            ? menus
+            : employee.role === "Manager"
+                ? adminMenu
+                : hrMenu;
 
     return (
         <aside
-            className="flex h-screen w-[280px] flex-col border-r p-6"
+            className="flex h-screen w-[280px] flex-col border-r p-6 overflow-y-auto scrollbar-thumb-gray-800"
             style={{
                 background: "var(--sidebar)",
                 borderColor: "var(--border)",
@@ -174,58 +194,146 @@ function SideBar() {
                     </h1>
 
                     <p className="text-sm text-[var(--text-secondary)]">
-                        {employee.role === "Employee" ? "Employee Portal" : "HR Portal"}
+                        {employee.role === "Employee"
+                            ? "Employee Portal"
+                            : "HR Portal"}
                     </p>
                 </div>
             </div>
 
+
             {/* Navigation */}
 
             <nav className="mt-10 flex-1 space-y-2">
-                {(employee.role === "Employee" ? menus : employee.role === "Manager" ? adminMenu : hrMenu).map((item) => {
+
+                {menu.map((item) => {
                     const Icon = item.icon;
 
+                    // Normal menu
+                    if (!item.children) {
+                        return (
+                            <NavLink
+                                key={item.title}
+                                to={item.path}
+                                end
+                                className={({ isActive }) =>
+                                    `group flex h-12 items-center gap-4 rounded-[var(--radius)] px-5 text-base font-medium transition-all duration-300 ${isActive
+                                        ? "text-[var(--text-white)]"
+                                        : "text-[var(--text-secondary)] hover:text-[var(--hover-text)]"
+                                    }`
+                                }
+                                style={({ isActive }) => ({
+                                    background: isActive
+                                        ? "var(--primary)"
+                                        : "transparent",
+                                    boxShadow: isActive
+                                        ? "var(--shadow-sm)"
+                                        : "none",
+                                })}
+                            >
+                                <Icon size={20} />
+
+                                <span>{item.title}</span>
+
+                            </NavLink>
+                        );
+                    }
+
+
+                    // Parent menu with children
+                    const isOpen = openMenu === item.title;
+
                     return (
-                        <NavLink
-                            key={item.title}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                `group flex h-12 items-center gap-4 rounded-[var(--radius)] px-5 text-base font-medium transition-all duration-300 ${isActive
-                                    ? "text-[var(--text-white)]"
-                                    : "text-[var(--text-secondary)] hover:text-[var(--hover-text)]"
-                                }`
-                            }
-                            style={({ isActive }) => ({
-                                background: isActive ? "var(--primary)" : "transparent",
-                                boxShadow: isActive ? "var(--shadow-sm)" : "none",
-                            })}
-                            end
-                        >
-                            <Icon size={20} />
-                            <span>{item.title}</span>
-                        </NavLink>
+                        <div key={item.title}>
+
+                            {/* Parent */}
+                            <button
+                                onClick={() =>
+                                    setOpenMenu(isOpen ? null : item.title)
+                                }
+                                className={`group flex h-12 w-full items-center justify-between rounded-[var(--radius)] px-5 text-base font-medium transition-all duration-300 ${isOpen
+                                    ? "bg-emerald-500/10 text-white"
+                                    : "text-[var(--text-secondary)] hover:bg-white/5 hover:text-white"
+                                    }`}
+                            >
+                                <div className="flex items-center gap-4">
+                                    <Icon size={20} />
+
+                                    <span>{item.title}</span>
+                                </div>
+
+                                <ChevronDown
+                                    size={16}
+                                    className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                                        }`}
+                                />
+                            </button>
+
+
+                            {/* Submenu */}
+                            <div
+                                className={`overflow-hidden transition-all duration-300 ${isOpen
+                                    ? "max-h-40 opacity-100"
+                                    : "max-h-0 opacity-0"
+                                    }`}
+                            >
+                                <div className="ml-6 mt-1 space-y-1 border-l  border-slate-700/60 pl-4">
+
+                                    {item.children.map((child) => (
+                                        <NavLink
+                                            key={child.title}
+                                            to={child.path}
+                                            end
+                                            className={({ isActive }) =>
+                                                `relative flex h-10 items-center px-4 text-sm transition ${isActive
+                                                    ? "font-medium text-emerald-400"
+                                                    : "text-slate-400 hover:text-white"
+                                                }`
+                                            }
+                                        >
+                                            {({ isActive }) => (
+                                                <>
+                                                    {isActive && (
+                                                        <span className="absolute -left-[17px] h-5 w-[2px] rounded-full bg-emerald-400" />
+                                                    )}
+
+                                                    <span>{child.title}</span>
+                                                </>
+                                            )}
+                                        </NavLink>
+                                    ))}
+
+                                </div>
+                            </div>
+
+                        </div>
                     );
                 })}
+
             </nav>
 
-            {/* Button */}
 
-            {employee.role === "employee" ? <button
-                className="rounded-[var(--radius)] py-4 font-semibold text-[var(--text-white)] transition-all duration-300 hover:scale-[1.02]"
-                style={{
-                    background: "var(--primary)",
-                }}
-                onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "var(--primary-dark)")
-                }
-                onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "var(--primary)")
-                }
-            >
-                Apply Leave
-            </button> : <ProfileButton employee={employee.name} role={employee.role} employeImage={employee.profileImage} />}
+            {/* Bottom */}
+
+            {employee.role === "Employee" ? (
+                <button
+                    className="rounded-[var(--radius)] py-4 font-semibold text-[var(--text-white)] transition-all duration-300 hover:scale-[1.02] "
+                    style={{
+                        background: "var(--primary)",
+                    }}
+                >
+                    Apply Leave
+                </button>
+            ) : (
+                <div className="mt-10">
+                    <ProfileButton
+                        employee={employee.name}
+                        role={employee.role}
+                        employeImage={employee.profileImage}
+                    />
+                </div>
+            )}
         </aside>
     );
 }
-
 export default SideBar;

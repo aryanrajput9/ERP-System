@@ -22,8 +22,9 @@ function PublicRoute() {
     };
 
     if (isAuthenticated && employee?.role === "HR") {
-        return <Navigate to="/hrAdmin" replace></Navigate>
+        return <Navigate to="/hradmin" replace></Navigate>
     }
+    ;
     return <Outlet />
 
 }

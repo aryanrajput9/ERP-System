@@ -11,6 +11,7 @@ const initialState = {
     allEmployeeAttendanceLoading: true,
     allTaskLoading: true,
     allLeaveLoading: true,
+    allAttendanceHistory: [],
     error: null
 }
 
@@ -36,12 +37,15 @@ const adminSlice = createSlice({
         setAllLeave: (state, action) => {
             state.allLeave = action.payload;
             state.allLeaveLoading = false
+        },
+        setAllAttendanceHistory: (state, action) => {
+            state.allAttendanceHistory = action.payload
         }
     }
 
 })
 
 
-export const { setAllEmploye, setError, setAllEmployeeAttendance, setAllTask, setAllLeave } = adminSlice.actions;
+export const { setAllEmploye, setError, setAllEmployeeAttendance, setAllTask, setAllLeave, setAllAttendanceHistory } = adminSlice.actions;
 
 export default adminSlice.reducer

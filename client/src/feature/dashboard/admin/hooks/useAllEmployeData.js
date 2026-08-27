@@ -17,6 +17,10 @@ const useAllEmployeeData = {
     setDepartmentHook: async (id, department) => {
         const resp = await adminSideApi.setDepartment(id, department);
         return resp
+    },
+    getAllEmployeeAttendanceHistory: async () => {
+        const resp = await adminSideApi.getAllAttendanceHistory();
+        return resp.data
     }
 
 

@@ -4,6 +4,7 @@ import { attendanceServices } from "../services/attendence.services.js";
 import { ApiResponse } from "../../../utils/api-respinse.js";
 import { Attendance } from "../schema/attendance.schema.js";
 import { Employee } from "../../../model/employe.model.js";
+import { subDays } from "date-fns";
 
 export const attendanceController = {
 
@@ -90,7 +91,7 @@ export const attendanceController = {
             )
         );
     }),
-    getAllEmployeeAttendence: asyncHandler(async (req, res) => {
+    getAllEmployeeAttendence: asyncHandler(async (_req, res) => {
 
 
         // Build a dashboard view by joining each employee to only today's attendance records.
@@ -146,6 +147,92 @@ export const attendanceController = {
         return res.status(200).json(
             allattendence
         )
+    }),
+    getAllEmployeeAttendenceHistory: asyncHandler(async (_req, res) => {
+
+        // Testing ke liye existing attendance data ka range
+        const start = new Date("2026-08-04T00:00:00.000Z");
+        const end = new Date("2026-08-16T23:59:59.999Z");
+
+        const totalEmployees = await Employee.countDocuments({
+            isActive: true,
+        });
+
+        const attendance = await Attendance.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: start,
+                        $lte: end,
+                    },
+                },
+            },
+
+            {
+                $group: {
+                    _id: {
+                        $dateToString: {
+                            format: "%Y-%m-%d",
+                            date: "$date",
+                        },
+                    },
+
+                    present: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$status", "Present"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+
+                    absent: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$status", "Absent"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+
+                    leave: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ["$status", "Leave"] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                },
+            },
+
+            {
+                $sort: {
+                    _id: 1,
+                },
+            },
+        ]);
+
+        const result = attendance.map((item) => ({
+            date: item._id,
+            totalEmployees,
+            present: item.present,
+            absent: item.absent,
+            leave: item.leave,
+
+            percentage: totalEmployees
+                ? Math.round((item.present / totalEmployees) * 100)
+                : 0,
+        }));
+
+
+        return res.status(200).json({
+            message: "Attendance history",
+            attendance: result,
+        });
     })
 
 };

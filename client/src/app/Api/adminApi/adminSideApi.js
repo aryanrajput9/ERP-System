@@ -1,6 +1,7 @@
 import useAxiosInstence from "../../../shared/services/axiosInstence";
 
 
+
 const adminSideApi = {
 
     getAllEmployee: async () => {
@@ -30,6 +31,10 @@ const adminSideApi = {
     },
     setDepartment: async (id, department) => {
         const resp = await useAxiosInstence.patch(`/employee/department/${id}`, { department });
+        return resp
+    },
+    getAllAttendanceHistory: async () => {
+        const resp = await useAxiosInstence.get("/attendence/allattendence-histoy");
         return resp
     }
 }
