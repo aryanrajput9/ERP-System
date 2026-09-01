@@ -48,18 +48,19 @@ export default function ChatPage() {
 
         reset();
     };
-
     useEffect(() => {
 
         if (!employee.id) return;
 
+        socketClient.connect();
+
         socketClient.emit("join-room", employee.id);
-        socketClient.on("user-online", (msg) => {
-            setOnline(msg)
-        });
+
+        const handleOnline = (msg) => {
+            setOnline(msg);
+        };
 
         const handleMessage = ({ messages, senderId }) => {
-
             setMessages((prev) => [
                 ...prev,
                 {
@@ -69,32 +70,34 @@ export default function ChatPage() {
             ]);
         };
 
-        if (!chats[1]) return;
-
-        const fetchMessages = async () => {
-            try {
-
-                const resp = await useChatHook.getMessage(chats[1]);
-
-                console.log("CHAT HISTORY:", resp);
-
-                setMessages(resp);
-
-            } catch (error) {
-                console.log("GET CHAT ERROR:", error);
-            }
-        };
-
+        socketClient.on("user-online", handleOnline);
         socketClient.on("recive-message", handleMessage);
 
-        fetchMessages()
+        if (chats[1]) {
+            const fetchMessages = async () => {
+                try {
+                    const resp = await useChatHook.getMessage(chats[1]);
+
+                    console.log("CHAT HISTORY:", resp);
+                    setMessages(resp);
+
+                } catch (error) {
+                    console.log("GET CHAT ERROR:", error);
+                }
+            };
+
+            fetchMessages();
+        }
 
         return () => {
+            socketClient.off("user-online", handleOnline);
             socketClient.off("recive-message", handleMessage);
+
+            // Chat close → socket disconnect
+            socketClient.disconnect();
         };
+
     }, [employee.id, chats[1]]);
-
-
 
     return (
         <div className="h-[85vh] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
