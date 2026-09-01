@@ -20,6 +20,12 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //routes
 app.use("/api", routes)
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "Server is running"
+    });
+});
+
 
 
 //error middleware
