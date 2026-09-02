@@ -7,6 +7,7 @@ export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
             origin: "https://erp-system-phi-nine.vercel.app",
+            methods: ["GET", "POST"],
             credentials: true,
         },
     });
