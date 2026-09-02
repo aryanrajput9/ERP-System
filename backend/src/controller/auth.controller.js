@@ -31,7 +31,7 @@ export const cookiesConst = (maxAge) => ({
     // Refresh tokens live in an HTTP-only cookie so browser scripts cannot read them directly.
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    sameSite: "none",
     maxAge,
     path: "/",
 });
