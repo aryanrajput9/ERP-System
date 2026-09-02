@@ -4,11 +4,16 @@ import { notFoundError } from './middleware/notFound-error.js';
 import routes from './routes/inde.route.js';
 import cookiparser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './config/swagger.js'
+import swaggerSpec from './config/swagger.js';
+import cors from 'cors'
 
 
 export const app = expresss();
 
+app.use(cors({
+    origin: "https://erp-system-phi-nine.vercel.app",
+    credentials: true
+}));
 
 // Parse JSON bodies and cookies before requests reach the route controllers.
 app.use(expresss.json());
@@ -20,7 +25,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //routes
 app.use("/api", routes)
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
     res.status(200).json({
         message: "Server is running"
     });
