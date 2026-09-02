@@ -11,7 +11,7 @@ import cors from 'cors'
 export const app = expresss();
 
 app.use(cors({
-    origin: "https://erp-system-phi-nine.vercel.app",
+    origin: "https://erp-system-git-master-aryanrajput9s-projects.vercel.app",
     credentials: true
 }));
 

@@ -6,7 +6,7 @@ export const initSocket = (server) => {
     // Attach Socket.IO to the same HTTP server used by Express for real-time chat events.
     io = new Server(server, {
         cors: {
-            origin: "https://erp-system-phi-nine.vercel.app",
+            origin: "https://erp-system-git-master-aryanrajput9s-projects.vercel.app",
             methods: ["GET", "POST"],
             credentials: true,
         },
