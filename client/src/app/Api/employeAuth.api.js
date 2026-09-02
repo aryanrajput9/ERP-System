@@ -33,16 +33,15 @@ useAxiosInstence.interceptors.response.use(
             orignalRequest._retry = true;
 
 
+            const response = await useAxiosInstence.get("/api/employee/refresh-token");
 
-            const token = await axios.get("/api/employee/refresh-token");
+            const accessToken = response.data.data.accessToken;
 
+            store.dispatch(setAccessToken(accessToken));
 
-            store.dispatch(setAccessToken(token.data.data.accessToken));
+            orignalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
-            orignalRequest.headers.Authorization = `Bearer ${token}`;
-
-
-            return useAxiosInstence(orignalRequest)
+            return useAxiosInstence(orignalRequest);
         }
 
         return Promise.reject(error)
