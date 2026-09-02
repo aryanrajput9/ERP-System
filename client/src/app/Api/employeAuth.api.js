@@ -1,7 +1,6 @@
 
 import useAxiosInstence from "../../shared/services/axiosInstence";
 import { store } from '../../app/store'
-import axios from "axios";
 import { setAccessToken } from "../../feature/auth/employee/state/employeeSlice";
 
 
