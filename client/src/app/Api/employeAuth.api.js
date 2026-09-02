@@ -33,7 +33,7 @@ useAxiosInstence.interceptors.response.use(
             orignalRequest._retry = true;
 
 
-            const response = await useAxiosInstence.get("/api/employee/refresh-token");
+            const response = await useAxiosInstence.get("/employee/refresh-token");
 
             const accessToken = response.data.data.accessToken;
 
