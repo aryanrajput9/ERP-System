@@ -13,7 +13,7 @@ export default defineConfig({
 
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "https://erp-system-4-00v2.onrender.com",
         changeOrigin: true,
         secure: false
       }
